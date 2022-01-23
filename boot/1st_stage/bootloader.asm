@@ -2,22 +2,27 @@
 ;	ETHIOPIC 32 Bit Operating System
 ;	
 
-[org 7c00]
+[org 0x7c00]
+[bits 16]
+
+; DATA DECLARATION
+%define ENDL	0xD0, 0x0A
+
 
 jmp short bootload_entry
 nop
 
+;
 ; ===== [FAT Header] =====
+;	BPB
 
-
-%include "FAT_BPB.inc"
-
-
-; ===== [DATA Variables] =====
-msgLoading	db	"Loading...", 0, 13
+%include "boot/1st_stage/FAT_BPB.inc"
 
 
 bootload_entry:
+	; Loading message
+	mov si, msgLoading
+	call print_string
 
 	;setup data segment since code segment is already setted up by the bios.
 	mov ax, 0			; use used ax since we can't directly assign a value to segment registers
@@ -33,11 +38,12 @@ bootload_entry:
 	jmp $			; Jump to current address
 
 
-; DATA DECLARATION
-%define ENDL	0xD0, 0x0A
 
 ; DATA INCLUSION
-%include "../print.asm"
+%include "boot/print.asm"
+
+; ===== [DATA Variables] =====
+msgLoading	db	"Loading...", 0, 13
 
 times 510-($-$$) db 0		; fill the rest with zeros.
-db 0xaa55			; boot signature.
+db 0xAA55			; boot signature.
