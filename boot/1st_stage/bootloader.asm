@@ -6,7 +6,7 @@
 [bits 16]
 
 ; DATA DECLARATION
-%define ENDL	0xD0, 0x0A
+%define ENDL 0xD, 0xA
 
 
 jmp short bootload_entry
@@ -29,6 +29,9 @@ bootload_entry:
 	mov ds, ax
 	mov es, ax
 	
+	mov si, settingUpStack
+	call print_string
+
 	; setup the stack
 	mov bp, 0x7e00
 	mov sp, bp
@@ -43,7 +46,8 @@ bootload_entry:
 %include "boot/print.asm"
 
 ; ===== [DATA Variables] =====
-msgLoading	db	"Loading...", 0, 13
+msgLoading	db	"Loading...", ENDL, 0
+settingUpStack db "Setting up stack...", ENDL, 0
 
 times 510-($-$$) db 0		; fill the rest with zeros.
 db 0xAA55			; boot signature.
