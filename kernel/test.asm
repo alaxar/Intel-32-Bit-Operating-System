@@ -1,1 +1,6 @@
-test:   db  "Hello, world"
+[org 0x1000]
+[bits 16]
+
+mov ah, 0x0e
+mov al, 'A'
+int 0x10

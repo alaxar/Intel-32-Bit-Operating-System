@@ -21,6 +21,6 @@ LargeSectorCount:   	dd  0
 drive_number:           db  0
 Reserved:               db  0
 Signature:              db  0x29
-Volume_id:              db  "ETHIOPIC"
-Volume_label:           db "ETHIOPIC OS"
-System_identifier:      db "FAT12   "
+Volume_id:              db "ETH", 0x00
+Volume_label:           db "ETHIOPICOS", 0x00
+System_identifier:      db "FAT12   ",

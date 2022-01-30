@@ -1,10 +1,13 @@
 BUILD_DIR = build
 
-all: bootloader.bin boot2.bin kernel.bin os-image.img
+all: bootloader.bin boot2.bin kernel.bin os-image.img runos
 
+runos:
+	echo "c" | bochs -f bochs.bxrc
+	
 os-image.img: ${BUILD_DIR}/bootloader.bin
 	dd if=/dev/zero	of=${BUILD_DIR}/os-image.img bs=512 count=2880
-	mkfs.fat -F 12 -n "ETHIOPIC" ${BUILD_DIR}/os-image.img
+	mkfs.fat -F 12 -n "Alazar" ${BUILD_DIR}/os-image.img
 	dd if=${BUILD_DIR}/bootloader.bin of=${BUILD_DIR}/os-image.img bs=512 conv=notrunc
 	mcopy -i ${BUILD_DIR}/os-image.img ${BUILD_DIR}/kernel.bin "::kernel.bin"
 	mcopy -i ${BUILD_DIR}/os-image.img ${BUILD_DIR}/boot2.bin "::boot2.bin"

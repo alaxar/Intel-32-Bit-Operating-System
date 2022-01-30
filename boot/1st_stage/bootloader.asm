@@ -33,21 +33,36 @@ bootload_entry:
 	call print_string
 
 	; setup the stack
-	mov bp, 0x7e00
+	mov bp, 0x9000
 	mov sp, bp
 	
-	
-	
+	; disk read
+	mov si, kernel_loading
+	call print_string
+
+	mov [drive_number], dl
+	mov ax, 1
+	mov cl, 50
+	mov bx, 0x1000
+
+	call disk_read
+
+	jmp 0x1000
+
 	jmp $			; Jump to current address
 
 
 
 ; DATA INCLUSION
+%include "boot/disk/disk.asm"
 %include "boot/print.asm"
 
 ; ===== [DATA Variables] =====
 msgLoading	db	"Loading...", ENDL, 0
+kernel_loading db "Loading the Kernel to memory...", ENDL, 0
 settingUpStack db "Setting up stack...", ENDL, 0
+DISK_ERROR	db "Read disk failed", ENDL, 0
+DISK_SUCCESS db "Read disk Success", ENDL, 0
 
 times 510-($-$$) db 0		; fill the rest with zeros.
 db 0xAA55			; boot signature.
