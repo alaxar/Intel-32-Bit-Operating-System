@@ -11,10 +11,11 @@ switch_to_pm:
     or eax, 0x1
     mov cr0, eax
 
-    jmp CODE_SEG:init_pm    ; far jump
+    ; jmp $
+    jmp dword CODE_SEG:init_pm    ; far jump
 
 
-[bits 16]
+[bits 32]
 
 ; Initialise registers and the stack once in PM
 init_pm:
@@ -25,8 +26,8 @@ init_pm:
     mov fs, ax
     mov gs, ax
 
-    mov ebp, 0x90000
-    mov esp, ebp
+    ; mov ebp, 0x20000
+    ; mov esp, ebp
 
     call BEGIN_PM
     jmp $

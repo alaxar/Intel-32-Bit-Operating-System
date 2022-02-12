@@ -142,6 +142,9 @@ is_end_of_file:
     mov ax, BOOT_SEGMENT
     mov ds, ax
     mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
 
 
     jmp BOOT_SEGMENT:BOOT_OFFSET

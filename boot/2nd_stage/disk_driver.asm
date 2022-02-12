@@ -10,7 +10,7 @@ disk_load:
     mov al, 50
     mov ch, 0
     mov dh, 0
-    mov cl, 2
+    mov cl, 33
 
     int 0x13
 

@@ -21,8 +21,8 @@ nop
 
 bootload_entry:
 	; Loading message
-	; mov si, msgLoading
-	; call print_string
+	mov si, msgLoading
+	call print_string
 
 	;setup data segment since code segment is already setted up by the bios.
 	mov ax, 0			; use used ax since we can't directly assign a value to segment registers
@@ -34,32 +34,25 @@ bootload_entry:
 	mov sp, bp
 
 	; clearing registers
+	
 	call fat12
 	jmp $			; Jump to current address
 
 ; DATA INCLUSION
-%include "boot/gdt.asm"
-%include "boot/switch_to_pm.asm"
 %include "boot/disk/disk.asm"
 %include "boot/print.asm"
 %include "boot/disk/fat12.asm"
 
-
 ; ===== [DATA Variables] =====
 msgLoading	db	"Loading...", ENDL
-kernel_loading db "Loading the Kernel...", ENDL
 DISK_ERROR	db "Read disk failed", ENDL
 not_found_boot2 db "BOOT2.BIN not found, press any key to restart...", ENDL
 boot2_cluster db 0
 
 BOOT_SEGMENT equ 0x2000
 BOOT_OFFSET equ 0x0
-BOOT2_IMAGE db "BOOT2   BIN"
-KERNEL_IMAGE db "KERNEL  BIN"
+BOOT2_IMAGE db "ETHLDR  BIN"
+KERNEL_IMAGE db "ETHKRNL BIN"
 
-
-[bits 32]
-BEGIN_PM:
-	jmp $
 times 510-($-$$) db 0		; fill the rest with zeros.
 db 0xAA55			; boot signature.

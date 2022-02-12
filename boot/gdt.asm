@@ -12,7 +12,7 @@ gdt_code:       ; the code segment descirptor
     ; type flags: (code)1 (conforming)0 (readable)1 (accessed)0 => 1010b
     ; 2nd flags: (granularity)1 (32 bit default)1 (64 bits seg)0 (AVL)0 -> 1100b
 
-    dw 0xfffff      ; Limit (bits 0-15)
+    dw 0xffff      ; Limit (bits 0-15)
     dw 0x0          ; Base (bits 0-15)
     db 0x0          ; Base (bits 16-23)
     db 10011010b    ; 1st flags, type flags
@@ -22,7 +22,7 @@ gdt_code:       ; the code segment descirptor
 gdt_data:       ; the data segment descriptor
     ; Same as code segment except for the type flags
     ; type flags: (code)0 (expand down)0 (writable)1 (accessed)0 => 0010b
-    dw 0xfffff      ; Limit (bits 0-15)
+    dw 0xffff      ; Limit (bits 0-15)
     dw 0x0          ; Base (bits 0-15)
     db 0x0          ; Base (bits 16-23)
     db 10010010b    ; 1st flags, type flags
