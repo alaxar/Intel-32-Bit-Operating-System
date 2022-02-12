@@ -6,7 +6,7 @@
 [bits 16]
 
 ; DATA DECLARATION
-%define ENDL 0xD, 0xA
+%define ENDL 0xD, 0xA, 0x0
 
 
 jmp short bootload_entry
@@ -21,48 +21,45 @@ nop
 
 bootload_entry:
 	; Loading message
-	mov si, msgLoading
-	call print_string
+	; mov si, msgLoading
+	; call print_string
 
 	;setup data segment since code segment is already setted up by the bios.
 	mov ax, 0			; use used ax since we can't directly assign a value to segment registers
 	mov ds, ax
 	mov es, ax
 	
-	mov si, settingUpStack
-	call print_string
-
 	; setup the stack
-	mov bp, 0x9000
+	mov bp, 0x7c00
 	mov sp, bp
-	
-	; disk read
-	mov si, kernel_loading
-	call print_string
 
-	mov [drive_number], dl
-	mov ax, 1
-	mov cl, 50
-	mov bx, 0x1000
-
-	call disk_read
-
-	jmp 0x1000
-
+	; clearing registers
+	call fat12
 	jmp $			; Jump to current address
 
-
-
 ; DATA INCLUSION
+%include "boot/gdt.asm"
+%include "boot/switch_to_pm.asm"
 %include "boot/disk/disk.asm"
 %include "boot/print.asm"
+%include "boot/disk/fat12.asm"
+
 
 ; ===== [DATA Variables] =====
-msgLoading	db	"Loading...", ENDL, 0
-kernel_loading db "Loading the Kernel to memory...", ENDL, 0
-settingUpStack db "Setting up stack...", ENDL, 0
-DISK_ERROR	db "Read disk failed", ENDL, 0
-DISK_SUCCESS db "Read disk Success", ENDL, 0
+msgLoading	db	"Loading...", ENDL
+kernel_loading db "Loading the Kernel...", ENDL
+DISK_ERROR	db "Read disk failed", ENDL
+not_found_boot2 db "BOOT2.BIN not found, press any key to restart...", ENDL
+boot2_cluster db 0
 
+BOOT_SEGMENT equ 0x2000
+BOOT_OFFSET equ 0x0
+BOOT2_IMAGE db "BOOT2   BIN"
+KERNEL_IMAGE db "KERNEL  BIN"
+
+
+[bits 32]
+BEGIN_PM:
+	jmp $
 times 510-($-$$) db 0		; fill the rest with zeros.
 db 0xAA55			; boot signature.

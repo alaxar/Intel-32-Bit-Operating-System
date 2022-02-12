@@ -7,9 +7,6 @@ wait_key_press:
     int 0x16
     jmp 0xFFFF:0            ; bios beggining
 
-.halt
-    cli
-    hlt
 
 lba_to_chs:
 
@@ -42,16 +39,8 @@ lba_to_chs:
 ;   dl - drive number
 
 disk_read
-    push ax
-    push bx
     push cx
-    push dx
-
-    push cx
-    ; call lba_to_chs
-    mov ch, 0
-    mov dh, 0
-    mov cl, 2
+    call lba_to_chs
     pop ax
 
     mov ah, 0x02
@@ -59,26 +48,12 @@ disk_read
 
     jc disk_error
 
-    cmp al, 50
+    cmp al, al
     jne disk_error
 
-    jmp disk_sucess
-
-disk_reset:
-    mov ah, 0x00
-    int 0x13
+    ret
 
 disk_error:
     mov si, DISK_ERROR
     call print_string
     call wait_key_press
-
-disk_sucess:
-    popa
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    mov si, DISK_SUCCESS
-    call print_string
-    ret

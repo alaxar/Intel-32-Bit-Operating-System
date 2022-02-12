@@ -1,3 +1,4 @@
+[bits 16]
 print_string:
 	lodsb			; mov al, si
 	mov ah, 0x0e
