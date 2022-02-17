@@ -34,23 +34,62 @@ bootload_entry:
 	mov sp, bp
 
 	; clearing registers
+	xor ax, ax
 	
-	call fat12
+	; 	KERNEL LOADIN AT 0x5000:0x0
+	; 	loading the ethKernel into memory
+	;
+	mov si, KERNEL_IMAGE			; Input name of the Image 
+	mov ax, word 0x0
+	mov [BOOT_SEGMENT], ax
+	mov ax, word 0x3000
+	mov [BOOT_OFFSET], ax
+	call fat12					; calling the file system.
+
+	; clearing vars and mems
+	xor ax, ax
+	mov [BOOT_SEGMENT], ax
+	mov [BOOT_OFFSET], ax
+
+	;	2ND STAGE BOOTLOADER
+	; 	loading the second bootloader into memory
+	;
+
+	mov si, BOOT2_IMAGE			; Input name of the Image 
+	mov ax, word 0x0
+	mov [BOOT_SEGMENT], ax
+	mov ax, word 0x1000
+	mov [BOOT_OFFSET], ax
+	call fat12					; calling the file system.
+
+	; set segment registers accordingly for the second stage bootloader.
+    mov ax, [BOOT_SEGMENT]
+    and al, 0x0                         ; removing the last byte added by the cpu
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+	mov ss, ax
+
+	jmp 0x0:0x1000				; far jump to the second bootloader.
+	
 	jmp $			; Jump to current address
 
+equal:
+	hlt
 ; DATA INCLUSION
 %include "boot/disk/disk.asm"
 %include "boot/print.asm"
 %include "boot/disk/fat12.asm"
 
 ; ===== [DATA Variables] =====
-msgLoading	db	"Loading...", ENDL
+msgLoading	db	"", ENDL
 DISK_ERROR	db "Read disk failed", ENDL
-not_found_boot2 db "BOOT2.BIN not found, press any key to restart...", ENDL
+not_found_boot2 db "BOOT2.BIN not found", ENDL
 boot2_cluster db 0
 
-BOOT_SEGMENT equ 0x2000
-BOOT_OFFSET equ 0x0
+BOOT_SEGMENT dw 0x0000
+BOOT_OFFSET dw 0x0000
 BOOT2_IMAGE db "ETHLDR  BIN"
 KERNEL_IMAGE db "ETHKRNL BIN"
 

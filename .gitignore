@@ -1,0 +1,5 @@
+build/
+*.o
+bochs.bxrc
+bx_enh_dbg.ini
+*.log
