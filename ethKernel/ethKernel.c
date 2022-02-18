@@ -1,7 +1,6 @@
+
 int main() {
-    unsigned char *VGA = (unsigned char *)0xB8000;
-    VGA[0] = 'A';
-    VGA[1] = 0x0f;
-    VGA[2] = 'B';
+    unsigned char *pixel = (unsigned char*)0xE0000000;
+    pixel[384*768+512] = 0xffffffff;
     // while(1);
 }

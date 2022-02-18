@@ -3,7 +3,7 @@
 ;
 
 stack memory
-    0x7e00 - 0x500 (Growth towards lower memory) 30kb
+    0x7c00 - 0x500 (Growth towards lower memory) 30kb
 
 File Allocation Table
     0x7e00 - 0x9000 (Growth towards higher memory) 4.5kB
@@ -12,7 +12,10 @@ Root Directory
     0x9000 - AC00 Growth toward higher memory) 7kb
 
 EthLoader
-    0x2000:0x0                  ; 0x20000
+    0x1000                 ; 0x1000
 
 EthKernel
-    0x1000                      ; 0x10000
+    0x3000                      ; 0x3000
+
+VESA INFO
+    0x500       ; vesa info

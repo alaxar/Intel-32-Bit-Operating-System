@@ -39,10 +39,11 @@ bootload_entry:
 	; 	KERNEL LOADIN AT 0x5000:0x0
 	; 	loading the ethKernel into memory
 	;
+	
 	mov si, KERNEL_IMAGE			; Input name of the Image 
 	mov ax, word 0x0
 	mov [BOOT_SEGMENT], ax
-	mov ax, word 0x3000
+	mov ax, word 0x4000
 	mov [BOOT_OFFSET], ax
 	call fat12					; calling the file system.
 
@@ -62,21 +63,19 @@ bootload_entry:
 	mov [BOOT_OFFSET], ax
 	call fat12					; calling the file system.
 
-	; set segment registers accordingly for the second stage bootloader.
-    mov ax, [BOOT_SEGMENT]
-    and al, 0x0                         ; removing the last byte added by the cpu
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-	mov ss, ax
+	; ; set segment registers accordingly for the second stage bootloader.
+    ; mov ax, [BOOT_SEGMENT]
+    ; and al, 0x0                         ; removing the last byte added by the cpu
+    ; mov ds, ax
+    ; mov es, ax
+    ; mov fs, ax
+    ; mov gs, ax
+	; mov ss, ax
 
-	jmp 0x0:0x1000				; far jump to the second bootloader.
+	jmp 0x1000				; far jump to the second bootloader.
 	
 	jmp $			; Jump to current address
 
-equal:
-	hlt
 ; DATA INCLUSION
 %include "boot/disk/disk.asm"
 %include "boot/print.asm"
