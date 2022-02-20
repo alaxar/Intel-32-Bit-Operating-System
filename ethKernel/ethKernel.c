@@ -31,6 +31,6 @@ int main() {
         }
     }
 
-    FillRect(10, 10, 100, 100, color);
+    FillRect(10, 10, 300, 100, color);
     while(1);
 }
