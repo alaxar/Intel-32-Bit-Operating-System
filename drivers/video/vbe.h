@@ -3,6 +3,8 @@
 
 #include "../../include/types.h"
 
+#define NULL 0
+
 typedef struct vbe_info_structure {
     unsigned char signature[4];
     uint16_t version;
@@ -16,7 +18,7 @@ typedef struct vbe_info_structure {
     uint32_t product_rev;
     char reserved[222];
     char oem_data[256];
-} __attribute__((packed)) vbe_info_structures;
+} __attribute__((packed)) vbe_info_structure;
 
 typedef struct vbe_mode_info_structure {
     uint16_t attributes;
@@ -55,7 +57,16 @@ typedef struct vbe_mode_info_structure {
     uint16_t off_screen_mem_size;
     uint8_t reserved1[206];
 } __attribute__((packed)) vbe_mode_info_structure;
-void get_vesa_bios_info();
-void get_vesa_mode_info();
+
+
+int get_vesa_bios_info();
+int get_vesa_mode_info();
+void SettingUpMemoryAddresses();
+
+extern unsigned short *vesa_info_addr;
+extern unsigned short *vesa_mode_addr;
+
+extern struct vbe_info_structure *vbe_info;
+extern struct vbe_mode_info_structure *vbe_mode;
 
 #endif

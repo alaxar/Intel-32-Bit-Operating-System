@@ -8,7 +8,7 @@ LDFLAGS = -T linker_script/ethKernelLinkerScript.ld	#text 0x1000# for the linker
 NFLAGS = -f elf32		# for nasm assembler
 BUILD_DIR = build
 
-C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/*.c tools/*.c ethKernel/memory/*.c)
+C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c)
 HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/*.h tools/*.h ethKernel/memory/*.h)
 
 OBJ = $(C_SOURCES:.c=.o)
