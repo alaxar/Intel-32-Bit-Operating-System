@@ -22,7 +22,7 @@ int main() {
     SetupScreen();
 
     // pixel draw
-    color = 0xd2e6ef;           // RGB
+    int color = 0xd2e6ef;           // RGB
     for(int i = 0; i < 8; i++) {
         for(int j = 0; j < 8; j++) {
             if(A[i][j] == 1) {
@@ -30,5 +30,7 @@ int main() {
             }
         }
     }
+
+    FillRect(10, 10, 100, 100, color);
     while(1);
 }

@@ -14,9 +14,10 @@ typedef struct SCREEN_DIMENSION {
 
 // vars
 extern struct SCREEN_DIMENSION scrn_dim;
-extern int color, PixelOffset;
+extern int PixelOffset;
 
 void PutPixel(int x, int y, int color);
+void FillRect(int x, int y, int width, int height, int color);
 void SetupScreen();
 
 #endif
