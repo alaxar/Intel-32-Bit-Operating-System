@@ -21,7 +21,7 @@ void PutPixel(int x, int y, int color) {
 void FillRect(int x, int y, int width, int height, int color) {
     for(int i = 0; i < height; i++) {
         for(int j = 0; j < width; j++) {
-            PixelOffset = (y + j) * scrn_dim.ScreenPitch + (x + i) * scrn_dim.PixelWidth;
+            PixelOffset = (y + i) * scrn_dim.ScreenPitch + (x + j) * scrn_dim.PixelWidth;
             scrn_dim.pixel[PixelOffset] = color & 0xFF;
             scrn_dim.pixel[PixelOffset + 1] = (color >> 8) & 0xFF;
             scrn_dim.pixel[PixelOffset + 2] = (color >> 16) & 0xFF;

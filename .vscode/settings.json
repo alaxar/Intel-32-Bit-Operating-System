@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "vbe.h": "c"
+        "vbe.h": "c",
+        "window.h": "c",
+        "screen.h": "c",
+        "memory_resource": "c"
     }
 }

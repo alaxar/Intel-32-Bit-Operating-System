@@ -8,8 +8,8 @@ LDFLAGS = -T linker_script/ethKernelLinkerScript.ld	#text 0x1000# for the linker
 NFLAGS = -f elf32		# for nasm assembler
 BUILD_DIR = build
 
-C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c)
-HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/*.h tools/*.h ethKernel/memory/*.h)
+C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c drivers/file_system/*.c)
+HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/gui/*.h driver/video/*.h include/*.h tools/*.h ethKernel/memory/*.h drivers/file_system/*.h)
 
 OBJ = $(C_SOURCES:.c=.o)
 
@@ -24,6 +24,7 @@ os-image.img: ${BUILD_DIR}/bootloader.bin	# building the os image with file syst
 	dd if=${BUILD_DIR}/bootloader.bin of=${BUILD_DIR}/os-image.img bs=512 conv=notrunc
 	mcopy -i ${BUILD_DIR}/os-image.img ${BUILD_DIR}/ethLoader.bin "::ethLdr.bin"
 	mcopy -i ${BUILD_DIR}/os-image.img ${BUILD_DIR}/ethKernel.bin "::ethKrnl.bin"
+	mcopy -i ${BUILD_DIR}/os-image.img fonts/zap-ext-light18.psf "::font.psf"
 
 ethKernel.bin: build/ethKernelEntry.o ${OBJ}
 	${LINKER} -o ${BUILD_DIR}/$@ ${LDFLAGS} $^ --oformat binary

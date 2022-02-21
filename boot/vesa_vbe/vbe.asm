@@ -47,12 +47,12 @@ select_mode:
     ; check resolution 
     ; width
     mov ax, word [di+18]
-    cmp ax, 1024
+    cmp ax, 800
     jne next_mode
 
     ; height
     mov ax, word[di+20]
-    cmp ax, 768
+    cmp ax, 600
     jne next_mode
 
     ; bpp
