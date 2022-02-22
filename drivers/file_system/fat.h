@@ -50,5 +50,6 @@ extern struct DirectoryEntry *root_directory_offset;
 extern uint8_t *fat_table_offset;
 
 void SearchForFile(unsigned char *filename);
-
+void ReadFileIntoMemory(int FirstCluster, void* readBuffer);
+void ReadingContents(uint32_t lba, void* readBuffer);
 #endif

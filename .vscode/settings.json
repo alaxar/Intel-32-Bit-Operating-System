@@ -3,6 +3,8 @@
         "vbe.h": "c",
         "window.h": "c",
         "screen.h": "c",
-        "memory_resource": "c"
+        "memory_resource": "c",
+        "fat.h": "c",
+        "types.h": "c"
     }
 }

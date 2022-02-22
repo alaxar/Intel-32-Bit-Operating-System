@@ -35,17 +35,29 @@ bootload_entry:
 
 	; clearing registers
 	xor ax, ax
-	
+
+	; LOADING INITIALIZATION RAM DISK
+	; 
+	;
+
+	mov si, INIT_RAM_DISK
+	mov ax, word 0x1000
+	mov [BOOT_SEGMENT], ax
+	mov ax, word 0x0
+	mov [BOOT_OFFSET], ax
+	call fat12
+
 	; 	KERNEL LOADIN AT 0x5000:0x0
 	; 	loading the ethKernel into memory
 	;
-	
+
 	mov si, KERNEL_IMAGE			; Input name of the Image 
 	mov ax, word 0x0
 	mov [BOOT_SEGMENT], ax
 	mov ax, word 0x4000
 	mov [BOOT_OFFSET], ax
 	call fat12					; calling the file system.
+	; jmp $
 
 	; clearing vars and mems
 	xor ax, ax
@@ -63,15 +75,6 @@ bootload_entry:
 	mov [BOOT_OFFSET], ax
 	call fat12					; calling the file system.
 
-	; ; set segment registers accordingly for the second stage bootloader.
-    ; mov ax, [BOOT_SEGMENT]
-    ; and al, 0x0                         ; removing the last byte added by the cpu
-    ; mov ds, ax
-    ; mov es, ax
-    ; mov fs, ax
-    ; mov gs, ax
-	; mov ss, ax
-
 	jmp 0x1000				; far jump to the second bootloader.
 	
 	jmp $			; Jump to current address
@@ -83,14 +86,15 @@ bootload_entry:
 
 ; ===== [DATA Variables] =====
 msgLoading	db	"", ENDL
-DISK_ERROR	db "Read disk failed", ENDL
-not_found_boot2 db "BOOT2.BIN not found", ENDL
+DISK_ERROR	db "", ENDL
+not_found_boot2 db "bootable not found", ENDL
 boot2_cluster db 0
 
 BOOT_SEGMENT dw 0x0000
 BOOT_OFFSET dw 0x0000
 BOOT2_IMAGE db "ETHLDR  BIN"
 KERNEL_IMAGE db "ETHKRNL BIN"
+INIT_RAM_DISK db "INITRAM TAR"
 
 times 510-($-$$) db 0		; fill the rest with zeros.
 db 0xAA55			; boot signature.

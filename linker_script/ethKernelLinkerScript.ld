@@ -1,8 +1,8 @@
 OUTPUT_FORMAT("binary)
-ENTRY (main)
+ENTRY (start)
 SECTIONS 
 {
-    .text 0x3000 : {
+    .text 0x4000 : {
         *(.text)
     }
 

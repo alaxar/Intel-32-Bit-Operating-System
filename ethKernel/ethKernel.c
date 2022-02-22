@@ -1,5 +1,8 @@
 #include "../drivers/file_system/fat.h"
 #include "../include/gui/window.h"
+#include "../tools/terminal.h"
+#include "../drivers/console/screen.h"
+#include "../tools/tar_reader.h"
 
 int main() {
     unsigned char A[8][8] = {
@@ -26,20 +29,23 @@ int main() {
     SetupScreen();
 
     // pixel draw
-    int color = 0xdabedc;           // RGB
-    // DrawBackground(color);
-    InitWindow();
-    DrawWindow(20, 20, 0, 0, "Title", 1);
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++) {
-            if(A[i][j] == 1) {
-                PutPixel(Rect.x+j, Rect.y+i, 0xffffff);
-            }
-        }
-    }
-    // FillRect(10, 10, 300, 200, color);
-    InitFAT();
-    SearchForFile("FONT    PSF");
+    int color = 0x0000ff;           // RGB
 
+    // PutPixel(512, 384, color);
+// testing
+    DrawBackground(color);
+    // InitWindow();
+    // DrawWindow(20, 20, 0, 0, "Title", 1);
+    // for(int i = 0; i < 8; i++) {
+    //     for(int j = 0; j < 8; j++) {
+    //         if(A[i][j] == 1) {
+    //             PutPixel(Rect.x+j, Rect.y+i, 0xffffff);
+    //         }
+    //     }
+    // }
+    // FillRect(10, 10, 300, 200, color);
+    clear_screen();
+    terminal_init();
+    ReadTarFile("zap-ext-light18.psf");
     while(1);
 }
