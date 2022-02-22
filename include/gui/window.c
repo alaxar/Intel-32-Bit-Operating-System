@@ -1,6 +1,6 @@
 #include "window.h"
 
-struct RECT Rect;
+struct RECT *Rect;
 struct WINDOW Window;
 struct WINDOW TitleBar;
 struct RECT Controls[3];        // close, maximize, minimize
@@ -8,81 +8,78 @@ struct BITMAP Bitmap;
 
 
 
-void InitWindow() {
+void InitWindow(int x, int y) {
     // default window values.
     // Setting up the RECT
-    Rect.x = 0;
-    Rect.y = 0;
-    Rect.width = (scrn_dim.ScreenWidth - 1) / 2;
-    Rect.height = (scrn_dim.ScreenHeight - 1) / 2;
+    Rect->x = x;
+    Rect->y = y;
+    Rect->width = (scrn_dim.ScreenWidth - 1) / 2;
+    Rect->height = (scrn_dim.ScreenHeight - 1) / 2;
 
     // setting up title bar
-    TitleBar.x = Rect.x;
-    TitleBar.y = Rect.y;
-    TitleBar.width = Rect.width;
+    TitleBar.x = Rect->x;
+    TitleBar.y = Rect->y;
+    TitleBar.width = Rect->width;
     TitleBar.height = 25;
 
     // Controls
     // close
-    Controls[0].x = Rect.x;
-    Controls[0].y = Rect.y;
-    Controls[0].width = 25;
+    int width = 25;
+    Controls[0].x = Rect->x + Rect->width - width;
+    Controls[0].y = Rect->y;
+    Controls[0].width = width;
     Controls[0].height = TitleBar.height;
+
     // maximize
-    Controls[1].x = Rect.x;
-    Controls[1].y = Rect.y;
-    Controls[1].width = 25*2;
+    Controls[1].x = Rect->x + Rect->width - width * 2;
+    Controls[1].y = Rect->y;
+    Controls[1].width = width;
     Controls[1].height = TitleBar.height;
+
     //minimize
-    Controls[2].x = Rect.x;
-    Controls[2].y = Rect.y;
-    Controls[2].width = 25*3;
+    Controls[2].x = Rect->x + Rect->width - width * 3;
+    Controls[2].y = Rect->y;
+    Controls[2].width = width;
     Controls[2].height = TitleBar.height;
 
     // setting up the window
-    Window.x = Rect.x;
-    Window.y = Rect.y;
-    Window.height = Rect.height;
-    Window.width = Rect.width;
+    Window.x = Rect->x;
+    Window.y = Rect->y;
+    Window.height = Rect->height;
+    Window.width = Rect->width;
     Window.child = &TitleBar;
 
     // setting up bitmap struct
-    Bitmap.x = Rect.x;
-    Bitmap.y = Rect.y;
+    Bitmap.x = Rect->x;
+    Bitmap.y = Rect->y;
 }
 
-void DrawWindow(int x, int y, int width, int height, uint8_t *title, uint32_t window_id) {
-    if(x == NULL)
-        x = Rect.x;
-    else
-        Rect.x = x;
+void DrawWindow(int x, int y, int width, int height, int ShadowValue, uint8_t *title, uint32_t window_id) {
 
-    if(y == NULL)
-        y = Rect.y;
-    else
-        Rect.y = x;
+    InitWindow(x, y);
 
-    if(width == NULL)
-        width = Rect.width;
-    else
-        Rect.width = width;
-
-    if(height == NULL)
-        height = Rect.height;
-    else
-        Rect.height = height;
-    
-    // Draw Title bar
-    DrawRectangle(Rect.x, Rect.y, TitleBar.height, Rect.width, 0xFFFFFF);
+    // Draw Window Shadow
+    DrawRectangle(Rect->x + ShadowValue, Rect->y + ShadowValue, Rect->height, Rect->width, 0x000000);
+    FillRect(Rect->x + ShadowValue, Rect->y + ShadowValue, Rect->width, Rect->height, 0x696863);
 
     // Draw window
-    DrawRectangle(Rect.x, Rect.y, Rect.height, Rect.width, 0xFFFFFF);
+    DrawRectangle(Rect->x, Rect->y, Rect->height, Rect->width, 0x000000);
+    FillRect(Rect->x, Rect->y, Rect->width, Rect->height, 0xbda267);
 
-    // Draw Controls
-    DrawRectangle(Rect.x+width-Controls[0].width, Rect.y, Controls[0].height, Controls[0].width, 0xFFFFFF);
-    DrawRectangle(Rect.x+width-Controls[1].width, Rect.y, Controls[1].height, Controls[1].width, 0xFFFFFF);
-    DrawRectangle(Rect.x+width-Controls[2].width, Rect.y, Controls[2].height, Controls[2].width, 0xFFFFFF);
-    
+    // Draw Title bar
+    DrawRectangle(Rect->x, Rect->y, TitleBar.height, Rect->width, 0x000000);
+    FillRect(TitleBar.x, TitleBar.y, TitleBar.width, TitleBar.height, 0xcdcdcb);
+
+    // // Draw Controls
+    DrawRectangle(Controls[0].x, Rect->y, Controls[0].height, Controls[0].width, 0x000000);
+    DrawRectangle(Controls[1].x, Rect->y, Controls[1].height, Controls[1].width, 0x000000);
+    DrawRectangle(Controls[2].x, Rect->y, Controls[2].height, Controls[2].width, 0x000000);
+
+    // filling 
+    FillRect(Controls[0].x, Controls[0].y, Controls[0].width, Controls[0].height, 0x850f19);
+    FillRect(Controls[1].x, Controls[0].y, Controls[1].width, Controls[1].height, 0xffff00);
+    FillRect(Controls[2].x, Controls[2].y, Controls[2].width, Controls[2].height, 0x00ff00);
+
 }
 
 void DrawText(int x, int y, uint8_t *text) {

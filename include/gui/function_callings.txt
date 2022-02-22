@@ -1,0 +1,10 @@
+// configuring video driver
+get_vesa_bios_info();
+get_vesa_mode_info();
+SetupScreen();
+
+
+// drawing windowws
+InitWindow();
+DrawBackground();
+DrawWindow(x, y, w, h);
