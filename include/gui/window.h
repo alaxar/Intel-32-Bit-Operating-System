@@ -11,6 +11,7 @@ typedef struct WINDOW {
     int x, y;
     int width, height;
     unsigned int ShadowValue;
+    unsigned int BackgroundColor;
     struct RECT *rect;
     struct BITMAP *bitmap;
     struct WINDOW *child;

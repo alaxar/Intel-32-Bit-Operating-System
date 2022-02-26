@@ -9,11 +9,19 @@ struct WINDOW Button;
 
 void InitWindow(int x, int y, int w, int h, uint32_t id) {
     // default window values.
-    // Setting up the RECT
+    // Setting up the RECT    
     Rect->x = x;
     Rect->y = y;
-    Rect->width = (scrn_dim.ScreenWidth - 1) / 2;
-    Rect->height = (scrn_dim.ScreenHeight - 1) / 2;
+    
+    if(w < 1)
+        Rect->width = (scrn_dim.ScreenWidth - 1) / 2;
+    else
+        Rect->width = w;
+
+    if(h < 1)
+        Rect->height = (scrn_dim.ScreenHeight - 1) / 2;
+    else
+        Rect->height = h;
 
     // setting up title bar
     TitleBar.x = Rect->x;
@@ -97,6 +105,7 @@ void DrawButton(int x, int y, int w, int h, char* text, struct WINDOW b) {
     FillRect(b.x + x, b.y + TitleBar.height + y, w, h, 0x32503c);
     DrawText((b.x + x) + 10, (b.y + TitleBar.height + y) + 10 , text);
 }
+
 void DrawRectangle(int x, int y, int height, int width, int color) {
     int x1 = x, y1 = y;
     int x2 = x, y2 = y;
