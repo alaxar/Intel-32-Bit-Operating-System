@@ -21,6 +21,6 @@ int main() {
     DrawBackground(color);
     DrawWindow(30, 30, 0, 0, 5, "Title", 1);
 
-    FindFileTAR("zap-ext-light18.psf");
+    printf(FindFileTAR("otherfile.txt"), -1, -1, 0);
     while(1);
 }

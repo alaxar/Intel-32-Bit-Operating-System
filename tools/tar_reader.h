@@ -17,6 +17,6 @@ struct tar_header
 extern struct tar_header *tar_hdr;
 
 unsigned int getsize(const char *in);
-int FindFileTAR(char *filename);
-int ReadTarFile(struct tar_header *found_header, unsigned char *address);
+char *FindFileTAR(char *filename);
+char *ReadTarFile(struct tar_header *found_header, unsigned char *address);     // returns address of a file.
 #endif
