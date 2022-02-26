@@ -23,6 +23,6 @@ int main() {
     // DrawBackground(color);
     // DrawWindow(30, 30, 0, 0, 5, "Title", 1);
 
-    DrawText(20, 20, "A");
+    DrawText(20, 20, "ABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCD");
     while(1);
 }
