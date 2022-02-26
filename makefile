@@ -8,8 +8,8 @@ LDFLAGS = -T linker_script/ethKernelLinkerScript.ld	#text 0x1000# for the linker
 NFLAGS = -f elf32		# for nasm assembler
 BUILD_DIR = build
 
-C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c drivers/file_system/*.c drivers/console/*.c ethKernel/interrupts/*.c drivers/keyboard/*.c include/gui/font/*.c)
-HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/gui/*.h driver/video/*.h include/*.h tools/*.h ethKernel/memory/*.h drivers/file_system/*.h drivers/console/*.h ethKernel/interrupts/*.h drivers/keyboard/*.h include/gui/font/*.h)
+C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c drivers/file_system/*.c drivers/console/*.c ethKernel/interrupts/*.c drivers/keyboard/*.c include/gui/font/*.c include/gui/testProgram/*.c)
+HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/gui/*.h driver/video/*.h include/*.h tools/*.h ethKernel/memory/*.h drivers/file_system/*.h drivers/console/*.h ethKernel/interrupts/*.h drivers/keyboard/*.h include/gui/font/*.h include/gui/testProgram/*.h)
 
 OBJ = $(C_SOURCES:.c=.o)
 

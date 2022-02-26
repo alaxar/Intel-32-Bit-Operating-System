@@ -7,9 +7,10 @@
 
 typedef struct WINDOW {
     uint32_t window_id;
-    uint8_t caption;
+    uint8_t *caption;
     int x, y;
     int width, height;
+    unsigned int ShadowValue;
     struct RECT *rect;
     struct BITMAP *bitmap;
     struct WINDOW *child;
@@ -35,6 +36,7 @@ extern struct RECT Controls[3];
 void InitWindow();
 void DrawRectangle(int x, int y, int height, int width, int color);
 void DrawBackground(int color);
-void DrawWindow(int x, int y, int width, int height, int ShadowValue, uint8_t *title, uint32_t window_id);
+void DrawWindow(struct WINDOW w);
+void DrawButton(int x, int y, int w, int h, char *text, struct WINDOW b);
 void VerticalRetrace();
 #endif

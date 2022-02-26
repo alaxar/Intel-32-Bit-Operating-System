@@ -10,11 +10,12 @@ void DrawText(int x, int y, char *filename) {
     
     do {
             index = filename[i];
-            index = index - 65;
+
+            if(index == 32)
+                index = 27;
+            else
+                index = index - 65;         // get the index value.
         
-
-
-
         // get the address of the loaded font from memory using tar file system.
         font_address = FindFileTAR("font.ef");
 
@@ -28,7 +29,7 @@ void DrawText(int x, int y, char *filename) {
                 }
             }
         }
-        x = x + 8;
+        x = x + 8;          // print the next character right after the printed character
         i++;
     } while(filename[i] != '\0');
 }

@@ -20,9 +20,7 @@ int main() {
 
     int color = 0x159c49;           // RGB
 
-    // DrawBackground(color);
-    // DrawWindow(30, 30, 0, 0, 5, "Title", 1);
-
-    DrawText(20, 20, "ABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCD");
+    DrawBackground(color);
+    InitProgram();
     while(1);
 }

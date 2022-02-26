@@ -5,9 +5,9 @@ struct WINDOW Window;
 struct WINDOW TitleBar;
 struct RECT Controls[3];        // close, maximize, minimize
 struct BITMAP Bitmap;
+struct WINDOW Button;
 
-
-void InitWindow(int x, int y) {
+void InitWindow(int x, int y, int w, int h, uint32_t id) {
     // default window values.
     // Setting up the RECT
     Rect->x = x;
@@ -46,6 +46,7 @@ void InitWindow(int x, int y) {
     Window.y = Rect->y;
     Window.height = Rect->height;
     Window.width = Rect->width;
+    Window.window_id = id;
     Window.child = &TitleBar;
 
     // setting up bitmap struct
@@ -53,13 +54,17 @@ void InitWindow(int x, int y) {
     Bitmap.y = Rect->y;
 }
 
-void DrawWindow(int x, int y, int width, int height, int ShadowValue, uint8_t *title, uint32_t window_id) {
+void DrawWindow(struct WINDOW w) {
 
-    InitWindow(x, y);
+    // if title is not given give the default
+    if(w.caption == NULL)
+        w.caption = "UNTITLED WINDOW";
+
+    InitWindow(w.x, w.y, w.width, w.height, w.window_id);
 
     // Draw Window Shadow
     // DrawRectangle(Rect->x + ShadowValue, Rect->y + ShadowValue, Rect->height, Rect->width, 0x000000);
-    FillRect(Rect->x + ShadowValue, Rect->y + ShadowValue, Rect->width, Rect->height, 0x39463e);
+    FillRect(Rect->x + w.ShadowValue, Rect->y + w.ShadowValue, Rect->width, Rect->height, 0x39463e);
 
     // Draw window
     // DrawRectangle(Rect->x, Rect->y, Rect->height, Rect->width, 0x000000);
@@ -68,6 +73,7 @@ void DrawWindow(int x, int y, int width, int height, int ShadowValue, uint8_t *t
     // Draw Title bar
     // DrawRectangle(Rect->x, Rect->y, TitleBar.height, Rect->width, 0x000000);
     FillRect(TitleBar.x, TitleBar.y, TitleBar.width, TitleBar.height, 0x32503c);
+    DrawText(TitleBar.x + 8, TitleBar.y + 8, w.caption);
 
     // // Draw Controls
     // DrawRectangle(Controls[0].x, Rect->y, Controls[0].height, Controls[0].width, 0x000000);
@@ -81,7 +87,16 @@ void DrawWindow(int x, int y, int width, int height, int ShadowValue, uint8_t *t
 
 }
 
+void DrawButton(int x, int y, int w, int h, char* text, struct WINDOW b) {
+    if(x > b.x + b.width)
+        x = b.x;
+    if(y > b.y + b.height)
+        y = b.y + TitleBar.height;
 
+    // DrawRectangle(b.x + x, b.y + TitleBar.height + y, h, w, 0xffffff);
+    FillRect(b.x + x, b.y + TitleBar.height + y, w, h, 0x32503c);
+    DrawText((b.x + x) + 10, (b.y + TitleBar.height + y) + 10 , text);
+}
 void DrawRectangle(int x, int y, int height, int width, int color) {
     int x1 = x, y1 = y;
     int x2 = x, y2 = y;
