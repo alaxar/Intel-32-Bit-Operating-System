@@ -15,7 +15,7 @@ unsigned int getsize(const char *in)
 }
 
 
-char* FindFileTAR(char *filename) {
+unsigned char *FindFileTAR(char *filename) {
     int i = 0, isFound = 0, FileSize;
     unsigned char *initram_addr = (unsigned char *)0x10000;
     // printf(tar_hdr->filename, -1, -1, 0);  + 0x200 + 0x2d8a + 0x76
@@ -39,16 +39,16 @@ char* FindFileTAR(char *filename) {
     if(isFound == 0)
         printf("File not found\n", -1, -1, 0);
     else
-        return ReadTarFile(tar_hdr, initram_addr);
+        return initram_addr;
 
 }
 
-char *ReadTarFile(struct tar_header *found_header, unsigned char *address) {
+unsigned char *ReadTarFile(struct tar_header *found_header, unsigned char *address) {
     unsigned char *buffer;
     int FileSize = getsize(found_header->size);
     for(int i = 0; i < FileSize; i++) {
         *(buffer+i) = *(address+i);
     }
-
-    return buffer;          // return the address of the found file.
+    // buffer[FileSize] = 0;
+    return address;          // return the address of the found file.
 }

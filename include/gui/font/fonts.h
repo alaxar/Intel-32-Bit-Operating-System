@@ -4,15 +4,15 @@
 
 #include "../../../include/types.h"
 
-typedef struct psf_header {
-    uint32_t magic;
-    uint32_t version;
-    uint32_t headersize;
-    uint32_t flags;
-    uint32_t numglyph;
-    uint32_t bytesperglyph;
-    uint32_t height;
-    uint32_t width;
-} __attribute__((packed)) psf_header;
+typedef struct ethiopic_font {
+    unsigned char magic[2];
+    unsigned char offset;
+    unsigned char width;
+    unsigned char height;
+} __attribute__((packed)) ethiopic_font;
+
+extern struct ethiopic_font *font_header;
+
+void DrawText(int x, int y, char *filename);
 
 #endif

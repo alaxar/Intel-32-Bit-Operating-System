@@ -4,6 +4,8 @@
 #include "../drivers/console/screen.h"
 #include "../tools/tar_reader.h"
 
+unsigned char fontA[8] = {0x3c,0x7e,0xc3,0xc3,0xff,0xff,0xc3,0xc3};
+
 int main() {
     idt_install();
     isrs_install();
@@ -18,9 +20,9 @@ int main() {
 
     int color = 0x159c49;           // RGB
 
-    DrawBackground(color);
-    DrawWindow(30, 30, 0, 0, 5, "Title", 1);
+    // DrawBackground(color);
+    // DrawWindow(30, 30, 0, 0, 5, "Title", 1);
 
-    printf(FindFileTAR("otherfile.txt"), -1, -1, 0);
+    DrawText(20, 20, "A");
     while(1);
 }

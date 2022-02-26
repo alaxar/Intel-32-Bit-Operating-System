@@ -13,7 +13,7 @@ start:
     call enableA20
 
     ; setting up vesa video mode
-    ; call get_vesa_bios_info
+    call get_vesa_bios_info
 
     ; Setting up the Opeating system 32 bit environment.
     mov si, switch

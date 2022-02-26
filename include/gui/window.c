@@ -81,20 +81,6 @@ void DrawWindow(int x, int y, int width, int height, int ShadowValue, uint8_t *t
 
 }
 
-void DrawText(int x, int y, uint8_t *text) {
-    for (int i = 0; i < 1; i++)
-    {
-        /* code */
-        for (int j = 0; j < 9; j++)
-        {
-            // if(alphabets[i][i] & (128 >> i)) {
-                // PutPixel(j, i, 0xFFFFFF);
-            // }
-        }
-        
-    }
-    
-}
 
 void DrawRectangle(int x, int y, int height, int width, int color) {
     int x1 = x, y1 = y;

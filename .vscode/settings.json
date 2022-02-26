@@ -5,6 +5,7 @@
         "screen.h": "c",
         "memory_resource": "c",
         "fat.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "tar_reader.h": "c"
     }
 }

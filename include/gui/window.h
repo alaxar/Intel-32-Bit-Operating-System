@@ -36,6 +36,5 @@ void InitWindow();
 void DrawRectangle(int x, int y, int height, int width, int color);
 void DrawBackground(int color);
 void DrawWindow(int x, int y, int width, int height, int ShadowValue, uint8_t *title, uint32_t window_id);
-void DrawText(int x, int y, uint8_t *text);
 void VerticalRetrace();
 #endif
