@@ -4,7 +4,7 @@ unsigned char *command;
 int i = 0;
 
 void terminal_cursor() {
-    printf("[Terminal]> ", -1, -1);
+    printf("[ETHIOPIC]> ", -1, -1);
 }
 
 void terminal_init() {

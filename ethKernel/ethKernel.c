@@ -5,6 +5,11 @@
 #include "../tools/tar_reader.h"
 
 int main() {
+    idt_install();
+    isrs_install();
+    irq_install();
+    keyboard_install();
+    enable_interrupts();
     clear_screen();
     terminal_init();
     get_vesa_bios_info();
@@ -16,8 +21,6 @@ int main() {
     DrawBackground(color);
     DrawWindow(30, 30, 0, 0, 5, "Title", 1);
 
-
-    printf(itoa(Rect->x), -1, -1, 0);
-    ReadTarFile("zap-ext-light18.psf");
+    FindFileTAR("zap-ext-light18.psf");
     while(1);
 }

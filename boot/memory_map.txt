@@ -11,6 +11,9 @@ File Allocation Table
 Root Directory
     0x9000 - AC00 Growth toward higher memory) 7kb
 
+InitRAM
+    0x10000                 ; 0x1000:0x0
+    
 EthLoader
     0x1000                 ; 0x1000
 
