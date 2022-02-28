@@ -25,9 +25,9 @@ int main() {
     int color = 0x159c49;           // RGB
     int x= 0, y = 0;
     while(1) {
-        DrawBackground(color);
+        // DrawBackground(color);
         // InitTest();
-        DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
+        // DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
         swap_buffer();
     }
     while(1);

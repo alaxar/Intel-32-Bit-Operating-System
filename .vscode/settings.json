@@ -8,6 +8,9 @@
         "types.h": "c",
         "tar_reader.h": "c",
         "advanced_array.h": "c",
-        "graphics.h": "c"
+        "graphics.h": "c",
+        "gui.h": "c",
+        "event_handler.h": "c",
+        "math.h": "c"
     }
 }
