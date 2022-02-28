@@ -7,6 +7,7 @@
         "fat.h": "c",
         "types.h": "c",
         "tar_reader.h": "c",
-        "advanced_array.h": "c"
+        "advanced_array.h": "c",
+        "graphics.h": "c"
     }
 }

@@ -2,7 +2,8 @@
 #define WINDOW_H_HEADER
 
 #include "../../include/types.h"
-#include "../../include/gui/screen.h"
+#include "graphics.h"
+
 // #include "fonts.h"
 
 typedef struct WINDOW {
@@ -38,9 +39,7 @@ extern struct WINDOW TitleBar;
 extern struct RECT Controls[3];
 
 void InitWindow();
-void DrawRectangle(int x, int y, int height, int width, int color);
 void DrawBackground(int color);
 void DrawWindow(struct WINDOW w);
 void DrawButton(int x, int y, int w, int h, char *text, struct WINDOW b);
-void VerticalRetrace();
 #endif

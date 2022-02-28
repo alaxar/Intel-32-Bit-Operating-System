@@ -1,5 +1,5 @@
 #include "../drivers/file_system/fat.h"
-#include "../include/gui/window.h"
+#include "../include/gui/gui.h"
 #include "../tools/terminal.h"
 #include "../drivers/console/screen.h"
 #include "../tools/tar_reader.h"
@@ -26,7 +26,7 @@ int main() {
     int x= 0, y = 0;
     while(1) {
         DrawBackground(color);
-        InitTest();
+        // InitTest();
         DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
         swap_buffer();
     }

@@ -4,7 +4,17 @@ get_vesa_mode_info();
 SetupScreen();
 
 
-// drawing windowws
-InitWindow();
-DrawBackground();
-DrawWindow(x, y, w, h);
+// including
+
+#include "gui.h" -> in your source file
+
+
+// function calling
+struct WINDOW window;
+window.id = 0;
+
+DrawWindow(window)
+DrawButton(window)
+
+// event handling
+addEvent(window.id, callbackFunction)
