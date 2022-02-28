@@ -28,6 +28,9 @@ typedef struct BITMAP {
     unsigned char *data;
 } BITMAP;
 
+
+// button structure
+
 extern struct WINDOW Window;
 extern struct RECT *Rect;
 extern struct BITMAP Bitmap;

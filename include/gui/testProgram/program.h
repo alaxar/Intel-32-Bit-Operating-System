@@ -4,5 +4,5 @@
 #include "../window.h"
 
 void InitProgram();
-
+void functiontoHalt();
 #endif
