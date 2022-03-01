@@ -1,14 +1,14 @@
 
-    //Mouse.inc by SANiK
 //License: Use as you wish, except to cause damage
 unsigned char mouse_cycle=0;     //unsigned char
 char mouse_byte[3];    //signed char
-int mouse_x=0;         //signed char
-int mouse_y=0;         //signed char
+int mouse_x = 1;         //signed char
+int mouse_y = 1;         //signed char
 
 //Mouse functions
-void mouse_handler(struct regs *a_r) //struct regs *a_r (not used but just there)
+void mouse_handler() 
 {
+
   switch(mouse_cycle)
   {
     case 0:

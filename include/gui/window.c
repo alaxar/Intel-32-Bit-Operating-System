@@ -7,6 +7,9 @@ struct RECT Controls[3];        // close, maximize, minimize
 struct BITMAP Bitmap;
 struct WINDOW Button;
 
+extern int mouse_x;
+extern int mouse_y;
+
 void InitWindow(int x, int y, int w, int h, uint32_t id) {
     // default window values.
     // Setting up the RECT    
@@ -82,6 +85,8 @@ void DrawWindow(struct WINDOW w) {
     // DrawRectangle(Rect->x, Rect->y, TitleBar.height, Rect->width, 0x000000);
     FillRect(TitleBar.x, TitleBar.y, TitleBar.width, TitleBar.height, 0x32503c);
     DrawText(TitleBar.x + 8, TitleBar.y + 8, w.caption);
+    // if((mouse_x >= TitleBar.x && mouse_x <= TitleBar.y + TitleBar.y + TitleBar.width) && (mouse_y >= TitleBar.y && mouse_y < TitleBar.y + TitleBar.height)) {
+    // }
 
     // // Draw Controls
     // DrawRectangle(Controls[0].x, Rect->y, Controls[0].height, Controls[0].width, 0x000000);
@@ -93,17 +98,40 @@ void DrawWindow(struct WINDOW w) {
     FillRect(Controls[1].x, Controls[1].y, Controls[1].width, Controls[1].height, 0xffff00);
     FillRect(Controls[2].x, Controls[2].y, Controls[2].width, Controls[2].height, 0x00ff00);
 
+
+    // mouse control for window controls
+    if((mouse_x >= Controls[0].x && mouse_x <= Controls[0].x + Controls[0].width) && (mouse_y >= Controls[0].y && mouse_y <= Controls[0].y + Controls[0].height)) {
+        DrawRectangle(Controls[0].x, Controls[0].y, Controls[0].height, Controls[0].width, 0xffffff);
+    }
+    // if((mouse_x >= Controls[1].x)) {
+    //    DrawRectangle(Controls[1].x, Controls[1].y, Controls[1].height, Controls[1].width, 0xffffff);
+    // }
+    // if((mouse_x >= Controls[2].x && mouse_x <= Controls[2].x + Controls[2].width) && (mouse_y >= Controls[2].y && mouse_y <= Controls[2].y + Controls[2].height)) {
+    //     DrawRectangle(Controls[2].x, Controls[2].y, Controls[2].height, Controls[2].width, 0xffffff);
+    // }
+
 }
 
-void DrawButton(int x, int y, int w, int h, char* text, struct WINDOW b) {
+void DrawButton(int x, int y, int w, int h, char* text, int button_id, struct WINDOW b) {
     if(x > b.x + b.width)
         x = b.x;
     if(y > b.y + b.height)
         y = b.y + TitleBar.height;
 
+    // button coordincates
+    int ButtonX = b.x + x;
+    int ButtonY = b.y + TitleBar.height + y;
     // DrawRectangle(b.x + x, b.y + TitleBar.height + y, h, w, 0xffffff);
-    FillRect(b.x + x, b.y + TitleBar.height + y, w, h, 0x32503c);
+    FillRect(ButtonX, ButtonY, w, h, 0x32503c);
     DrawText((b.x + x) + 10, (b.y + TitleBar.height + y) + 10 , text);
+
+    // check if the mouse coordinate is the hovering over the a button
+    if((mouse_x > ButtonX && mouse_x < ButtonX + w) && (mouse_y > ButtonY && mouse_y < ButtonY + h)) {
+        // the hover effect.
+        DrawRectangle(ButtonX, ButtonY, h, w, 0xffffff);
+        // check if there is a click
+        // if there is a click then see if the button is event triggred.
+    }
 }
 
 

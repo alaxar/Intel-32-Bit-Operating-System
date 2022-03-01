@@ -37,9 +37,11 @@ extern struct RECT *Rect;
 extern struct BITMAP Bitmap;
 extern struct WINDOW TitleBar;
 extern struct RECT Controls[3];
+// extern int mouse_x;
+// extern int mouse_y;
 
 void InitWindow();
 void DrawBackground(int color);
 void DrawWindow(struct WINDOW w);
-void DrawButton(int x, int y, int w, int h, char *text, struct WINDOW b);
+void DrawButton(int x, int y, int w, int h, char *text, int button_id, struct WINDOW b);
 #endif
