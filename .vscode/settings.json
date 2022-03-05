@@ -11,6 +11,7 @@
         "graphics.h": "c",
         "gui.h": "c",
         "event_handler.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "memory_mgr.h": "c"
     }
 }

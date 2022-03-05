@@ -9,23 +9,14 @@ int mouse_y = 1;         //signed char
 void mouse_handler() 
 {
 
-  switch(mouse_cycle)
-  {
-    case 0:
       mouse_byte[0]=port_byte_in(0x60);
       mouse_cycle++;
-      break;
-    case 1:
       mouse_byte[1]=port_byte_in(0x60);
       mouse_cycle++;
-      break;
-    case 2:
       mouse_byte[2]=port_byte_in(0x60);
       mouse_x +=mouse_byte[1];
       mouse_y -=mouse_byte[2];
       mouse_cycle=0;
-      break;
-  }
 }
 
 void mouse_wait(unsigned char a_type) //unsigned char

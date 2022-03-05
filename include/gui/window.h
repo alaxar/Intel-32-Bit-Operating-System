@@ -2,6 +2,7 @@
 #define WINDOW_H_HEADER
 
 #include "../../include/types.h"
+#include "mouse.h"
 #include "graphics.h"
 
 // #include "fonts.h"
@@ -28,7 +29,6 @@ typedef struct BITMAP {
     int x, y;
     unsigned char *data;
 } BITMAP;
-
 
 // button structure
 

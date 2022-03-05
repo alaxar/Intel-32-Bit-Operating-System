@@ -2,10 +2,8 @@
 
 struct WINDOW file_explorer;
 void InitFileExplorer() {
-    file_explorer.x = 50;
-    file_explorer.y = 50;
-    file_explorer.width = 600;
-    file_explorer.height = 500;
+    Rect->width = 500;
+    Rect->height = 400;
     file_explorer.caption = "FILE EXPLORER";
     file_explorer.window_id = 0;
     file_explorer.ShadowValue = 5;
