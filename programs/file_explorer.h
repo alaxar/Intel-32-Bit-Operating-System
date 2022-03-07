@@ -4,5 +4,5 @@
 #include "../include/gui/gui.h"
 
 void InitFileExplorer();
-
+void testFunc();
 #endif

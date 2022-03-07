@@ -9,7 +9,7 @@ void SetupScreen() {
     // getting vesa information
     get_vesa_bios_info();
     get_vesa_mode_info();
-    backbuffer = (unsigned char*)memory_allocate(scrn_dim.ScreenHeight * scrn_dim.ScreenWidth);
+    backbuffer = (unsigned char*)page_allocator(scrn_dim.ScreenHeight * scrn_dim.ScreenWidth);
     scrn_dim.ScreenWidth = vbe_mode->width;         // width
     scrn_dim.ScreenHeight = vbe_mode->height;       // height
     scrn_dim.PixelWidth = vbe_mode->bpp / 8;        // bits per pixel

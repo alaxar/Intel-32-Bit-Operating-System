@@ -1,20 +1,16 @@
 #include "memory_mgr.h"
 
-char *heap = 0x4C4B40;
-void *memory_allocate(int size) {
-    char *starting_address;
-    starting_address = heap = mem_check();
-    for(int i = 0; i < size; i++) {
-        *heap = *(heap+i) | 0x01;
-        heap++;
-    }
+// very very simple memory allocator
+void *free_base_addr = (void *)0x4C4B40;
+void *free_top_addr = (void *)0x17D7840;
 
-    return starting_address;
-}
+void *page_allocator(int size) {
+    void *allocated_address = free_base_addr;
+    int freespace = (int)free_top_addr - (int)free_base_addr;
+    if(freespace > size)
+        free_base_addr = free_base_addr + size;
+    else
+        return 0;
 
-char* mem_check() {
-    while(*heap & 0x1) {
-        heap++;
-    }
-    return heap;
+    return allocated_address;
 }

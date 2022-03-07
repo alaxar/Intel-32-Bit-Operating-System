@@ -3,6 +3,7 @@
 
 #define TRUE 1
 #define FALSE 0
+#define NULL 0
 
 typedef unsigned short int uint16_t;
 typedef unsigned int uint32_t;

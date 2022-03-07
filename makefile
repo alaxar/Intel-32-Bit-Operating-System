@@ -16,8 +16,8 @@ OBJ = $(C_SOURCES:.c=.o)
 all: bootloader.bin ethLoader.bin ethKernelEntry.o ethKernel.bin os-image.img runos
 
 runos:
-	VBoxManage startvm "ostest"
-	#echo "c" | bochs -f bochs.bxrc
+	#VBoxManage startvm "ostest"
+	echo "c" | bochs -f bochs.bxrc
 
 debug:
 	echo "C" | bochs -f debug.bxrc

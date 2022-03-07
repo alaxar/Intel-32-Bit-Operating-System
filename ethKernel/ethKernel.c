@@ -5,7 +5,10 @@
 #include "../tools/tar_reader.h"
 #include "memory_mgr/memory_mgr.h"
 
-char *end_of_kernel;
+struct node {
+    int data;
+    struct node *next;
+};
 
 int main() {
     idt_install();      // interrupt install
@@ -17,14 +20,17 @@ int main() {
     clear_screen();
     terminal_init();
     SetupScreen();
-
     int backgroundColor = 0x159c49;           // RGB
-    Rect->y = 50;
-    Rect->x = 50;
-    while(1) {
-        DrawBackground(backgroundColor);
-        InitFileExplorer();
-        DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);        
-        swap_buffer();
-    }
+
+    // linked list test
+    insert(0, 12);
+    insert(1, 20);
+    insert(2, 50);
+
+    int value = search(0);
+
+    if(value == -1)
+        printf("key not found", -1, -1, 0);
+    else
+        printf(itoa(value), -1, -1, 0);
 }

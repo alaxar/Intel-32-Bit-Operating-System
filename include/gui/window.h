@@ -4,44 +4,26 @@
 #include "../../include/types.h"
 #include "mouse.h"
 #include "graphics.h"
+#include "event_handling/event_handler.h"
 
 // #include "fonts.h"
+typedef struct Context_struct {
+    uint32_t    *buffer;
+    unsigned int width;
+    unsigned int height;
+} Context;
 
-typedef struct WINDOW {
-    uint32_t window_id;
-    uint8_t *caption;
-    int x, y;
-    int width, height;
-    unsigned int ShadowValue;
-    unsigned int BackgroundColor;
-    struct RECT *rect;
-    struct BITMAP *bitmap;
-    struct WINDOW *child;
-} WINDOW;
+typedef struct window_struct {
+    uint16_t x;
+    uint16_t y;
+    uint16_t width;
+    uint16_t height;
 
+    Context *context;
+} Window;
 
-typedef struct RECT {
-    int x, y;
-    int height, width;
-} RECT;
+Window *Window_new(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Context *context);
+void DrawWindow(Window *window);
+void Context_fillRect(Context *context, uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t color);
 
-typedef struct BITMAP {
-    int x, y;
-    unsigned char *data;
-} BITMAP;
-
-// button structure
-
-extern struct WINDOW Window;
-extern struct RECT *Rect;
-extern struct BITMAP Bitmap;
-extern struct WINDOW TitleBar;
-extern struct RECT Controls[3];
-// extern int mouse_x;
-// extern int mouse_y;
-
-void InitWindow();
-void DrawBackground(int color);
-void DrawWindow(struct WINDOW w);
-void DrawButton(int x, int y, int w, int h, char *text, int button_id, struct WINDOW b);
 #endif

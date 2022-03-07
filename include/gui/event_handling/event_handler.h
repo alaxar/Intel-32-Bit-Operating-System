@@ -4,5 +4,5 @@
 #include "../../advanced_array.h"
 
 void addEvent(int window_id, void (*callback)());
-
+void eventCaller();
 #endif
