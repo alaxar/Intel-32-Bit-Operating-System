@@ -38,3 +38,11 @@ void FillRect(int x, int y, int width, int height, int color) {
 void swap_buffer() {
     memory_copy(backbuffer, scrn_dim.pixel, (scrn_dim.ScreenHeight * scrn_dim.ScreenPitch));
 }
+
+void UpdateScreen() {
+    #ifdef VERTICAL_RETRACE
+        while((port_byte_in(0x3DA) & 0x08));
+        while(!(port_byte_in(0x3DA) & 0x08));
+    #endif
+    swap_buffer();
+}

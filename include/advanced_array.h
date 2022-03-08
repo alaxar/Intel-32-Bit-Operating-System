@@ -6,11 +6,12 @@
 typedef struct advanced_array
 {
     int key;
-    char *value;
+    int value;
+    void *addressValue;
     struct advanced_array *next;
-};
+} EthiopicArray;
 
-void insert(int key, int value);
-int search(int key);
+void insert(int key, void* value);
+void *search(int key);
 
 #endif

@@ -2,12 +2,12 @@
 
 struct advanced_array *head;
 
-void insert(int key, int value) {
+void insert(int key, void *value) {
     struct advanced_array *newNode = (struct advanced_array*)page_allocator(sizeof(struct advanced_array));
     struct advanced_array *lastNode = head;
 
     newNode->key = key;
-    newNode->value = value;
+    newNode->addressValue = value;
 
     if(head == NULL) {
         head = newNode;
@@ -23,12 +23,12 @@ void insert(int key, int value) {
 void Display() {
 }
 
-int search(int key) {
+void *search(int key) {
 	int isFound = 1;
 	while(head != NULL)
 	{
 		if(head->key == key)
-			return head->value;
+			return head->addressValue;
 		else
 			isFound = 0;
 			
@@ -36,5 +36,5 @@ int search(int key) {
 	}
 	
 	if(isFound == 0)
-		return -1;
+		return 0;
 }

@@ -5,4 +5,5 @@
 
 void addEvent(int window_id, void (*callback)());
 void eventCaller();
+EthiopicArray *CheckRegisteredBtn();
 #endif

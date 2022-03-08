@@ -16,6 +16,7 @@
         "mouse.h": "c",
         "cstdlib": "c",
         "algorithm": "c",
-        "functional": "c"
+        "functional": "c",
+        "fonts.h": "c"
     }
 }

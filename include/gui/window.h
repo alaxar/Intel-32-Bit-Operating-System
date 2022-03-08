@@ -18,12 +18,17 @@ typedef struct window_struct {
     uint16_t y;
     uint16_t width;
     uint16_t height;
+    uint8_t isAllocated;
+    uint8_t *caption;
+    uint8_t ShadowValue;
 
+    // nodes
     Context *context;
+    struct Window *prev, *next;
+    struct Window *child;
 } Window;
 
-Window *Window_new(uint16_t x, uint16_t y, uint16_t width, uint16_t height, Context *context);
-void DrawWindow(Window *window);
-void Context_fillRect(Context *context, uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t color);
-
+void DrawWindow(Window *w);
+void DrawBackground(int color);
+void DrawButton(int x, int y, int h, int w, char *text, int button_id, Window *window);
 #endif

@@ -22,15 +22,10 @@ int main() {
     SetupScreen();
     int backgroundColor = 0x159c49;           // RGB
 
-    // linked list test
-    insert(0, 12);
-    insert(1, 20);
-    insert(2, 50);
-
-    int value = search(0);
-
-    if(value == -1)
-        printf("key not found", -1, -1, 0);
-    else
-        printf(itoa(value), -1, -1, 0);
+    while(1) {
+        DrawBackground(backgroundColor);
+        InitFileExplorer();
+        DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
+        UpdateScreen();
+    }
 }
