@@ -22,9 +22,9 @@ int main() {
     SetupScreen();
     int backgroundColor = 0x159c49;           // RGB
 
-    while(1) {
+    while(1) {          // game loop
         DrawBackground(backgroundColor);
-        InitFileExplorer();
+        InitCalculator();
         DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
         UpdateScreen();
     }

@@ -36,6 +36,7 @@ void FillRect(int x, int y, int width, int height, int color) {
 }
 
 void swap_buffer() {
+    // double buffer
     memory_copy(backbuffer, scrn_dim.pixel, (scrn_dim.ScreenHeight * scrn_dim.ScreenPitch));
 }
 

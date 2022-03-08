@@ -17,6 +17,7 @@
         "cstdlib": "c",
         "algorithm": "c",
         "functional": "c",
-        "fonts.h": "c"
+        "fonts.h": "c",
+        "calculator.h": "c"
     }
 }
