@@ -23,7 +23,7 @@ debug:
 	echo "C" | bochs -f debug.bxrc
 
 os-image.img: ${BUILD_DIR}/bootloader.bin	# building the os image with file system.
-	dd if=/dev/zero	of=${BUILD_DIR}/os-image.img bs=512 count=2880
+	sudo dd if=/dev/zero	of=${BUILD_DIR}/os-image.img bs=512 count=2880
 	mkfs.fat -F 12 -n "Alazar" ${BUILD_DIR}/os-image.img
 	sudo dd if=${BUILD_DIR}/bootloader.bin of=${BUILD_DIR}/os-image.img bs=512 conv=notrunc
 	mcopy -i ${BUILD_DIR}/os-image.img ${BUILD_DIR}/ethLoader.bin "::ethLdr.bin"
