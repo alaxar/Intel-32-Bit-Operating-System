@@ -25,7 +25,7 @@ debug:
 os-image.img: ${BUILD_DIR}/bootloader.bin	# building the os image with file system.
 	dd if=/dev/zero	of=${BUILD_DIR}/os-image.img bs=512 count=2880
 	mkfs.fat -F 12 -n "Alazar" ${BUILD_DIR}/os-image.img
-	dd if=${BUILD_DIR}/bootloader.bin of=${BUILD_DIR}/os-image.img bs=512 conv=notrunc
+	sudo dd if=${BUILD_DIR}/bootloader.bin of=${BUILD_DIR}/os-image.img bs=512 conv=notrunc
 	mcopy -i ${BUILD_DIR}/os-image.img ${BUILD_DIR}/ethLoader.bin "::ethLdr.bin"
 	mcopy -i ${BUILD_DIR}/os-image.img ${BUILD_DIR}/ethKernel.bin "::ethKrnl.bin"
 	mcopy -i ${BUILD_DIR}/os-image.img initram/initram.tar "::initram.tar"
