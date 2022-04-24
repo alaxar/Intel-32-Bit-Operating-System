@@ -1,6 +1,6 @@
 #ifndef _SCREEN_HEADER_
 #define _SCREEN_HEADER_
-#define VIDEO_MEMORY 0xb8000
+#define VIDEO_MEMORY 0xb8000            // text video memory
 #define MAX_ROWS 25
 #define MAX_COLS 80
 

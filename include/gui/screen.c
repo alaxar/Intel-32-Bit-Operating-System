@@ -5,16 +5,16 @@ PixelOffset;
 
 unsigned char *backbuffer;
 
-void SetupScreen() {
+void SetupScreen(multiboot_info_t *mbi) {
     // getting vesa information
     get_vesa_bios_info();
     get_vesa_mode_info();
-    backbuffer = (unsigned char*)page_allocator(scrn_dim.ScreenHeight * scrn_dim.ScreenWidth);
-    scrn_dim.ScreenWidth = vbe_mode->width;         // width
-    scrn_dim.ScreenHeight = vbe_mode->height;       // height
-    scrn_dim.PixelWidth = vbe_mode->bpp / 8;        // bits per pixel
-    scrn_dim.ScreenPitch = vbe_mode->pitch;         // pitch how many bytes are need to the right to reach the next row width*Bpp
-    scrn_dim.pixel = vbe_mode->framebuffer;         // linear framebuffer.
+    backbuffer = (unsigned char*)page_allocator(mbi->framebuffer_height * mbi->framebuffer_width);
+    scrn_dim.ScreenWidth = mbi->framebuffer_width;         // width
+    scrn_dim.ScreenHeight = mbi->framebuffer_height;       // height
+    scrn_dim.PixelWidth = mbi->framebuffer_bpp / 8;        // bits per pixel
+    scrn_dim.ScreenPitch = mbi->framebuffer_pitch;         // pitch how many bytes are need to the right to reach the next row width*Bpp
+    scrn_dim.pixel = mbi->framebuffer_addr;         // linear framebuffer.
 }
 
 void PutPixel(int x, int y, int color) {

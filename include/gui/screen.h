@@ -3,7 +3,7 @@
 
 
 #include "../../drivers/video/vbe.h"
-
+#include "../../ethKernel/multiboot/multiboot.h"
 typedef struct SCREEN_DIMENSION {
     int ScreenWidth;
     int ScreenHeight;
@@ -18,6 +18,6 @@ extern int PixelOffset;
 
 void PutPixel(int x, int y, int color);
 void FillRect(int x, int y, int width, int height, int color);
-void SetupScreen();
+void SetupScreen(multiboot_info_t *mbi);
 
 #endif
