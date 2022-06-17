@@ -17,7 +17,7 @@ OBJ = $(C_SOURCES:.c=.o)
 all: grub_boot.o ethKernel.bin EthiopicOS.iso runos
 
 runos:
-	VBoxManage startvm "ostest2"
+	VBoxManage startvm "ostest"
 	#echo "c" | bochs -f bochs.bxrc
 
 debug:

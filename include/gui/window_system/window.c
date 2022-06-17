@@ -26,18 +26,24 @@ void New_window(Window **desktop, int window_id, int x, int y, int width, int he
 void PaintDesktop(Window *desktop) {
     while (desktop != NULL)
     {
+        // window shadow
+        // FillRect(desktop->x + 5, desktop->y + 5, desktop->width, desktop->height, 0x39463e);
+
         // title bar
-        // DrawRectangle(head->x, head->y, 20, head->width, 0xffffffff);
-        FillRect(desktop->x, desktop->y, desktop->width, 20, desktop->color);
+        FillRect(desktop->x, desktop->y, desktop->width, 20, 0xE2D1F9);
         // drawing window body
-        // DrawRectangle(desktop->x, desktop->y, desktop->height, desktop->width, 0xffffffff);
-        FillRect(desktop->x, desktop->y, desktop->width, desktop->height, desktop->color);
-        if((mouse_x > desktop->x && mouse_x < desktop->x + desktop->width) && (mouse_y > desktop->y && mouse_y < desktop->y + desktop->height)) {
-            // Remove_window_to_end(desktop, desktop->window_id);
-            DrawRectangle(desktop->x, desktop->y, desktop->height, desktop->window_id, 0xffffff);
+
+        FillRect(desktop->x, desktop->y + 20, desktop->width, desktop->height, 0x317773);
+        if((mouse_x > desktop->x && mouse_x < desktop->x + desktop->width) && (mouse_y > desktop->y && mouse_y < desktop->y + 20)) {
+            if(mouse_left_click() == 1) {
+                if(desktop->window_id == 1) {
+                    DrawRectangle(desktop->x, desktop->y + 20, desktop->height, desktop->width, 0x0000ff);
+                }
+                Remove_window_to_end(&desktop, desktop->window_id);
+                DrawRectangle(desktop->x, desktop->y + 20, desktop->height, desktop->width, 0xffffff);
+            }
         }
         desktop = desktop->next;
-
     }
 }
 

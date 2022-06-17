@@ -14,8 +14,8 @@ void mouse_handler()
       mouse_byte[1]=port_byte_in(0x60);
       mouse_cycle++;
       mouse_byte[2]=port_byte_in(0x60);
-      mouse_x +=mouse_byte[1];
-      mouse_y -=mouse_byte[2];
+      mouse_x +=mouse_byte[1] * 0.5;
+      mouse_y -=mouse_byte[2] * 0.5;
       mouse_cycle=0;
       redraw_desktop_interrupt();
 }
