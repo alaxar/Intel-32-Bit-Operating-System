@@ -1,6 +1,9 @@
 #ifndef TAR_READER_HEADER
 #define TAR_READER_HEADER
 
+#include "../ethKernel/multiboot/multiboot.h"
+
+
 struct tar_header
 {
     char filename[100];
@@ -15,6 +18,7 @@ struct tar_header
 } __attribute__((packed));
 
 extern struct tar_header *tar_hdr;
+extern multiboot_info_t *mbi;
 
 unsigned int getsize(const char *in);
 unsigned char *FindFileTAR(char *filename);

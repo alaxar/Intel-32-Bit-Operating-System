@@ -17,6 +17,7 @@ void mouse_handler()
       mouse_x +=mouse_byte[1];
       mouse_y -=mouse_byte[2];
       mouse_cycle=0;
+      redraw_desktop_interrupt();
 }
 
 void mouse_wait(unsigned char a_type) //unsigned char

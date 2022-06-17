@@ -2,7 +2,32 @@
 
 unsigned char *bmp_header_offset;       // used for storing address of bmp header file into char pointer
 BMPHeader *bmp_header;
-int isflipped = 0;
+int isSwapped = 0;
+unsigned char tempColor;
+unsigned char *PixelData;
+int PixelArraySize;
+int Height;
+int Width;
+int bpp;
+int RowSize;
+int red, green, blue, colorBMP;
+
+void flip_image_array(unsigned char **ImageData, int rows, int cols) {
+    int i, j;
+    long rd2;
+    unsigned char **temp;
+
+    temp = page_allocator(rows * cols);
+
+    rd2 = rows / 2;
+
+    for(i = 0; i < rd2; i++) {
+        for(int j = 0; j < cols; j++) {
+            temp[rows-1-i][j] = ImageData[i][j];
+        }
+    }
+
+}
 
 DIB *ReadBMP(char *filename) {
 
@@ -18,6 +43,9 @@ DIB *ReadBMP(char *filename) {
     // reading the dib header
     DIB *dib_header = (DIB*)(bmp_header_offset + 14);
 
+    // now we can allocate memory for our image 
+    PixelData = bmp_header_offset + bmp_header->offset;
+
     if(dib_header == 0x0)
         return 0x0;
 
@@ -30,39 +58,60 @@ unsigned char GrayScale(unsigned char B, unsigned char G, unsigned char R) {
 
 
 void DrawImage(int x, int y, DIB *dib_header) {
-    // calculating how many bytes are needed to fill one row
-    int RowSize = ((dib_header->bpp * dib_header->width + 31) / 32) * 4;
-    int PixelArraySize = RowSize * absolute(dib_header->height);
+    // check whether the image width in bytes are a multiple of 4 bytes or not
+    Width = dib_header->width;
+    Height = dib_header->height;
+    bpp = dib_header->bpp;                            // expressed in bits
+    RowSize = Width * (bpp / 8);                // multiplying the width by byte per pixel to get the actual size need to store the pixel data
 
-    unsigned char *PixelData = bmp_header_offset + bmp_header->offset;
+    if(RowSize % 4 != 0 && bpp == 24) {                          // check if the rowsize is not a multiple of 4 bytes.
+        // if the row is not a multiple of 4 bytes.
+        // then calculate the rowsize and round it up to a multiple of 4 bytes.
+        // to calculate RowSize to a multple of 4 bytes we use the below formula
+        // RowSize = floor(bpp * ImageWidth + 31 / 32) * 4
+        // this fomula is from BMP file structure on wiki pedia
+        // we will overwrite the RowSize variable instead of creating new one.
+        // if RowSize was a multiple of 4 bytes it will keep the data. otherwise it will be changed here.        
+        RowSize = (bpp * Width + 31) / 32;          // in the RowSize Variable only the integer part will be saved, the number after the point will be discarded.
+        RowSize = RowSize * 4;                      // then the integer part will be multiplied by 4 to make to a multiple of 4 bytes.
 
-    unsigned char temp;
-    int red, green, blue, alpha = 0;
-    int colorBMP;
+        // that is all you need to make.
+        printf("is not a multiple of 4 bytes");
+    }
 
-    // collecting pixels in to and array
-    if(isflipped == 0) {
-        for(int i = 0; i < dib_header->height; i++) {
-            for(int j = 0; j < RowSize; j += 3) {
-                temp = PixelData[(i*RowSize+j)];
+    // now we need to calculate the PixelArraySize in order to allocate memory for our image.
+    // therefore we use the formula provided by the BMP File Structure.
+
+    PixelArraySize = RowSize * absolute(Height);            // sometimes the image height might be expressed in negative number so we need to pass it through absolute value function.
+                                                                // if the image height is negative then it means the image is stored in top-down format.
+    
+
+    // now do swap the colors because they are stored in the form of BGR, therefore we need to change it to RGB
+
+    // Swapping color values to RGB from BGR
+    if(isSwapped == 0) {
+        for(int i = Height; i > 0; i--) {
+            for(int j = 0; j < RowSize; j+=3) {
+                tempColor = PixelData[(i*RowSize+j)];
                 PixelData[(i*RowSize+j)] = PixelData[(i*RowSize+j) + 2];
-                PixelData[(i*RowSize+j) + 2] = temp;
+                PixelData[(i*RowSize+j) + 2] = tempColor;
             }
         }
-        isflipped = 1;
+        isSwapped = 1;
     }
-    
-    // drawing image to screen
-    for(int i = dib_header->height; i > 0; i--) {
-        for(int j = dib_header->width; j > 0; j--) {
+
+    if(Height > 0)
+        flip_image_array(PixelData, Width, Height);
+
+
+    for(int i = Height - i; i > 0; i--) {
+        for(int j = 0; j < Width; j++) {
             int kk = 3 * j;
 
-            red = PixelData[i*RowSize+kk];
-            green = PixelData[(i*RowSize+kk) + 1];
-            blue = PixelData[(i*RowSize+kk) + 2];
+            red = PixelData[Height-i*RowSize+kk];
+            green = PixelData[(Height-i*RowSize+kk) + 1];
+            blue = PixelData[(Height-i*RowSize+kk) + 2];
 
-
-            // forming one color from three distnic colors
             colorBMP = (int)(colorBMP << 8) | red;
             colorBMP = (int)(colorBMP << 8) | green;
             colorBMP = (int)(colorBMP << 8) | blue;

@@ -21,5 +21,6 @@ typedef struct dib_struct {
     unsigned int ImportantColors;
 } DIB;
 
+
 DIB *ReadBMP(char *filename);
 void DrawImage(int x, int y, DIB *dib_header);

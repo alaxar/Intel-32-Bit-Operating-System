@@ -16,8 +16,12 @@ unsigned int getsize(const char *in)
 
 
 unsigned char *FindFileTAR(char *filename) {
+
+    // get the memory address of initram from grub multiboot header
+    multiboot_module_t *mod = (multiboot_module_t*)mbi;
+
     int i = 0, isFound = 0, FileSize;
-    unsigned char *initram_addr = (unsigned char *)0x108000;
+    unsigned char *initram_addr = (unsigned char *)1081344;          // starting address of initram
     // printf(tar_hdr->filename, -1, -1, 0);  + 0x200 + 0x2d8a + 0x76
     do {
         tar_hdr = (struct tar_header*)initram_addr;

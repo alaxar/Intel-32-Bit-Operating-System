@@ -9,8 +9,8 @@ NFLAGS = -f elf32		# for nasm assembler
 BUILD_DIR = build
 GRUB_BOOT = disk/boot
 
-C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c drivers/file_system/*.c drivers/console/*.c ethKernel/interrupts/*.c drivers/keyboard/*.c drivers/mouse_driver/*.c include/gui/font/*.c include/gui/testProgram/*.c include/gui/event_handling/*.c programs/*.c ethKernel/memory_mgr/*.c ethKernel/cpu/*.c)
-HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/gui/*.h driver/video/*.h include/*.h tools/*.h ethKernel/memory/*.h drivers/file_system/*.h drivers/console/*.h ethKernel/interrupts/*.h drivers/keyboard/*.h drivers/mouse_driver/*.h include/gui/font/*.h include/gui/testProgram/*.h include/gui/event_handling/*.h programs/*.h ethKernel/memory_mgr/*.h ethKernel/cpu/*.h)
+C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c drivers/file_system/*.c drivers/console/*.c ethKernel/interrupts/*.c drivers/keyboard/*.c drivers/mouse_driver/*.c include/gui/font/*.c include/gui/testProgram/*.c include/gui/event_handling/*.c programs/*.c ethKernel/memory_mgr/*.c ethKernel/cpu/*.c include/gui/window_system/*.c)
+HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/gui/*.h driver/video/*.h include/*.h tools/*.h ethKernel/memory/*.h drivers/file_system/*.h drivers/console/*.h ethKernel/interrupts/*.h drivers/keyboard/*.h drivers/mouse_driver/*.h include/gui/font/*.h include/gui/testProgram/*.h include/gui/event_handling/*.h programs/*.h ethKernel/memory_mgr/*.h ethKernel/cpu/*.h include/gui/window_system/*.h)
 
 OBJ = $(C_SOURCES:.c=.o)
 

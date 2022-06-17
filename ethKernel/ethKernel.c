@@ -6,10 +6,23 @@
 #include "memory_mgr/memory_mgr.h"
 #include "multiboot/multiboot.h"
 #include "../include/gui/bmp.h"
+#include "../include/gui/window_system/window.h"
+
+multiboot_info_t *mbi;
+Window *desktop = NULL;
+extern char mouse_byte[3];
+
+void redraw_desktop_interrupt() {
+    // DrawBackground(0xfafafa);
+    Remove_window(&desktop, 0);
+    PaintDesktop(desktop);
+    DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
+    UpdateScreen();
+}
 
 int main(unsigned long address, unsigned long grub_magic) {
     // // setup multiboot header
-    multiboot_info_t *mbi = (multiboot_info_t*)address;
+    mbi = (multiboot_info_t*)address;
 
     gdt_install();
     idt_install();      // interrupt install
@@ -21,22 +34,12 @@ int main(unsigned long address, unsigned long grub_magic) {
     clear_screen();
     terminal_init();
     SetupScreen(mbi);
-
-    // if(mbi->framebuffer_addr != NULL) {
-    //     printf("framebuffer is null", -1, -1, -1);
-    //     PutPixel(0, 0, 0xff000000);
-    // } else {
-    //     printf("framebuffer is not null", -1, -1, -1);
-    //     PutPixel(0, 0, 0xffffffff);
-    // }
-
-    DIB *dib = ReadBMP("sample.bmp");
-
     int backgroundColor = 0x159c49;           // RGB
-    while(1) {
-        DrawImage(0, 0, dib);
-        DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffffff);
-        UpdateScreen();
-    }
+ 
+    New_window(&desktop, 0, 10, 20, 320, 200, 0xff0000, "title");
+    New_window(&desktop, 1, 300, 40, 320, 200, 0x00ff00, "title");
+    
+    PaintDesktop(desktop);
+    UpdateScreen();
     while(1); // hang the cpu here
 }

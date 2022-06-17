@@ -18,6 +18,7 @@
         "algorithm": "c",
         "functional": "c",
         "fonts.h": "c",
-        "calculator.h": "c"
+        "calculator.h": "c",
+        "context.h": "c"
     }
 }
