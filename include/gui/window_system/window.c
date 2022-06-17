@@ -33,21 +33,21 @@ void PaintDesktop(Window *desktop) {
         // DrawRectangle(desktop->x, desktop->y, desktop->height, desktop->width, 0xffffffff);
         FillRect(desktop->x, desktop->y, desktop->width, desktop->height, desktop->color);
         if((mouse_x > desktop->x && mouse_x < desktop->x + desktop->width) && (mouse_y > desktop->y && mouse_y < desktop->y + desktop->height)) {
-            // Remove_Window(&desktop, desktop->window_id);
-            // DrawRectangle(desktop->x, desktop->y, desktop->height, desktop->window_id, 0xffffff);
+            // Remove_window_to_end(desktop, desktop->window_id);
+            DrawRectangle(desktop->x, desktop->y, desktop->height, desktop->window_id, 0xffffff);
         }
         desktop = desktop->next;
 
     }
 }
 
-void Remove_window(Window **desktop, int window_id) {
-    Window *temp_window = *desktop;
+void Remove_window_to_end(Window **desktop, int window_id) {
+    Window **temp_window = desktop;
     Window *last_window = *desktop;
     Window *current_window = *desktop;
     Window *prev_window = NULL;
 
-    if(temp_window != NULL && temp_window->window_id == window_id) {
+    if(*temp_window != NULL && (*temp_window)->window_id == window_id) {
         return NULL;
     } else {
         while(current_window != NULL && current_window->window_id != window_id) {
@@ -56,7 +56,7 @@ void Remove_window(Window **desktop, int window_id) {
         }
     }
 
-    // traverse to the end of the list.
+    // // traverse to the end of the list.
     while(last_window->next != NULL) {
         last_window = last_window->next;
     }

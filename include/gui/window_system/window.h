@@ -19,4 +19,4 @@ typedef struct window_struct {
 
 void New_window(Window **desktop, int window_id, int x, int y, int width, int height, int color, char *title);
 void PaintDesktop(Window *desktop);
-void Remove_window(Window **desktop, int window_id);
+void Remove_window_to_end(Window **desktop, int window_id);
