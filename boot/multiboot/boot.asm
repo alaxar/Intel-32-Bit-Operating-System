@@ -16,7 +16,7 @@ align 4
     dd CHECKSUM
     dd 0, 0, 0, 0, 0
     dd 0                ; Set graphics mode
-    dd 800, 600, 32     ; set the resolution the default
+    dd 320, 200, 32     ; set the resolution the default
 
 
 _start:

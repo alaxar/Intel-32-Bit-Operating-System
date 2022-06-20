@@ -11,14 +11,19 @@
 multiboot_info_t *mbi;
 Window *desktop = NULL;
 extern char mouse_byte[3];
+    int isCalled = 0;
 
 void redraw_desktop_interrupt() {
-    if(mouse_left_click() == 1) {
-        PaintDesktop(desktop);
-    }
-    
+    int backgroundColor = 0x159c49;           // RGB
+    // DrawBackground(backgroundColor);
+        for(int i = 0; i < scrn_dim.ScreenHeight; i++) {
+            for(int j = 0; j < scrn_dim.ScreenWidth; j++) {
+                PutPixel(j, i, backgroundColor);
+            }
+        }
+    PaintDesktop(desktop);
     DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
-    UpdateScreen();
+    // UpdateScreen();
 }
 
 int main(unsigned long address, unsigned long grub_magic) {
@@ -35,16 +40,12 @@ int main(unsigned long address, unsigned long grub_magic) {
     clear_screen();
     terminal_init();
     SetupScreen(mbi);
-    int backgroundColor = 0x159c49;           // RGB
- 
-    DrawBackground(backgroundColor);
-
-    New_window(&desktop, 0, 10, 20, 320, 200, 0xff0000, "title");           // red
-    New_window(&desktop, 1, 300, 100, 320, 200, 0x00ff00, "title");          // green
-    New_window(&desktop, 2, 350, 30, 320, 200, 0x0000ff, "title");          // blue
-    New_window(&desktop, 3, 400, 200, 320, 200, 0xffff00, "title");          // other color
+    New_window(&desktop, 41, 0, 10, 320, 200, 0xff0000, "FIRST WINDOW");           // red
+    New_window(&desktop, 42, 300, 100, 320, 200, 0x00ff00, "SECOND WINDOW");          // green
+    New_window(&desktop, 43, 350, 30, 320, 200, 0x0000ff, "THRID WINDOW");          // blue
+    New_window(&desktop, 44, 400, 200, 320, 200, 0xffff00, "FOURTH WINDOW");          // other color
 
     PaintDesktop(desktop);
-    UpdateScreen();
+    // UpdateScreen();
     while(1); // hang the cpu here
 }

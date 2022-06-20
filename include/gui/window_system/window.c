@@ -24,26 +24,34 @@ void New_window(Window **desktop, int window_id, int x, int y, int width, int he
 }
 
 void PaintDesktop(Window *desktop) {
-    while (desktop != NULL)
+    Window *temp = desktop;
+    while (temp != NULL)
     {
         // window shadow
-        // FillRect(desktop->x + 5, desktop->y + 5, desktop->width, desktop->height, 0x39463e);
+        FillRect(temp->x + 5, temp->y + 5, temp->width, temp->height, 0x39463e);
 
         // title bar
-        FillRect(desktop->x, desktop->y, desktop->width, 20, 0xE2D1F9);
+        FillRect(temp->x, temp->y, temp->width, 20, 0xE2D1F9);
+        DrawText(temp->x + 10, temp->y + 5, temp->title);
         // drawing window body
 
-        FillRect(desktop->x, desktop->y + 20, desktop->width, desktop->height, 0x317773);
-        if((mouse_x > desktop->x && mouse_x < desktop->x + desktop->width) && (mouse_y > desktop->y && mouse_y < desktop->y + 20)) {
+        FillRect(temp->x, temp->y + 20, temp->width, temp->height, 0x317773);
+        DrawRectangle(temp->x, temp->y, temp->height + 20, temp->width, 0xffffff);
+        if((mouse_x > temp->x && mouse_x < temp->x + temp->width) && (mouse_y > temp->y && mouse_y < temp->y + 20)) {
             if(mouse_left_click() == 1) {
-                if(desktop->window_id == 1) {
-                    DrawRectangle(desktop->x, desktop->y + 20, desktop->height, desktop->width, 0x0000ff);
+                // set window focus
+                for(int i = temp->window_id; i < temp->window_id + 4; i++) {
+                    if(temp->window_id == i)
+                        Remove_window_to_end(&desktop, i);
+
+                // moving the windows.
+                desktop->x = mouse_x - (desktop->width / 3);
+                desktop->y = mouse_y - 5;
                 }
-                Remove_window_to_end(&desktop, desktop->window_id);
-                DrawRectangle(desktop->x, desktop->y + 20, desktop->height, desktop->width, 0xffffff);
+                DrawRectangle(temp->x, temp->y + 20, temp->height, temp->width, 0xffffff);
             }
         }
-        desktop = desktop->next;
+        temp = temp->next;
     }
 }
 
