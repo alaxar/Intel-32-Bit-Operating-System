@@ -3,22 +3,22 @@
 CC = i686-elf-gcc
 LINKER = i686-elf-ld
 ASM = nasm
-CFLAGS = -c	# compiler flags
+CFLAGS = -c	-I include/ -nostdinc# compiler flags
 LDFLAGS = -T linker_script/ethKernelLinkerScript.ld	#text 0x1000# for the linker
 NFLAGS = -f elf32		# for nasm assembler
 BUILD_DIR = build
 GRUB_BOOT = disk/boot
 
-C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c drivers/file_system/*.c drivers/console/*.c ethKernel/interrupts/*.c drivers/keyboard/*.c drivers/mouse_driver/*.c include/gui/font/*.c include/gui/testProgram/*.c include/gui/event_handling/*.c programs/*.c ethKernel/memory_mgr/*.c ethKernel/cpu/*.c include/gui/window_system/*.c)
-HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/gui/*.h driver/video/*.h include/*.h tools/*.h ethKernel/memory/*.h drivers/file_system/*.h drivers/console/*.h ethKernel/interrupts/*.h drivers/keyboard/*.h drivers/mouse_driver/*.h include/gui/font/*.h include/gui/testProgram/*.h include/gui/event_handling/*.h programs/*.h ethKernel/memory_mgr/*.h ethKernel/cpu/*.h include/gui/window_system/*.h)
+C_SOURCES = $(wildcard ethKernel/*.c drivers/*.c include/gui/*.c drivers/video/*.c include/*.c tools/*.c ethKernel/memory/*.c drivers/file_system/*.c drivers/console/*.c ethKernel/interrupts/*.c drivers/keyboard/*.c drivers/mouse_driver/*.c include/gui/font/*.c include/gui/testProgram/*.c include/gui/event_handling/*.c programs/*.c ethKernel/memory_mgr/*.c ethKernel/cpu/*.c include/gui/window_system/*.c drivers/pci/*.c)
+HEADERS = $(wildcard ethKernel/*.h drivers/*.h include/gui/*.h driver/video/*.h include/*.h tools/*.h ethKernel/memory/*.h drivers/file_system/*.h drivers/console/*.h ethKernel/interrupts/*.h drivers/keyboard/*.h drivers/mouse_driver/*.h include/gui/font/*.h include/gui/testProgram/*.h include/gui/event_handling/*.h programs/*.h ethKernel/memory_mgr/*.h ethKernel/cpu/*.h include/gui/window_system/*.h drivers/pci/*.h)
 
 OBJ = $(C_SOURCES:.c=.o)
 
 all: grub_boot.o ethKernel.bin EthiopicOS.iso runos
 
 runos:
-	VBoxManage startvm "ostest2"
-	#echo "c" | bochs -f bochs.bxrc
+	VBoxManage startvm "ostest"
+	# echo "c" | bochs -f bochs.bxrc
 
 debug:
 	echo "C" | bochs -f debug.bxrc

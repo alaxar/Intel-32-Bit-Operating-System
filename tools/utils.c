@@ -1,13 +1,6 @@
 #include "utils.h"
 #include "../drivers/console/screen.h"
 
-void memory_copy(char *source, char *dest, int no_bytes) {
-    int i;
-    for(i = 0; i < no_bytes; i++) {
-        *(dest+i) = *(source+i);
-    }
-}
-
 int handling_scrolling(int cursor_offset) {
     // check if the cursor is within the screen.
     if(cursor_offset < 25*80*2) {

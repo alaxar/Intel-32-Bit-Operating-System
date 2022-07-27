@@ -256,7 +256,7 @@ isr30:
 isr31:
     cli
     push byte 0
-    push byte 31
+    push byte 3
     jmp isr_common_stub
 
 

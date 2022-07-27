@@ -1,92 +1,115 @@
 #include "window.h"
+#include "../bmp.h"
 
-void New_window(Window **desktop, int window_id, int x, int y, int width, int height, int color, char *title) {
-    Window *new_window = (Window*)page_allocator(sizeof(Window));
-    new_window->window_id = window_id;
-    new_window->x = x;
-    new_window->y = y;
-    new_window->width = width;
-    new_window->height = height;
-    new_window->title = title;
-    new_window->color = color;
-    new_window->next = NULL;
+Window Controls[2];
+Window startButton = {3, 10, 10, 50, 25, 0x343148, "MENU"};
+DIB *dib_header;
 
-    Window *last_window = *desktop;
-
-    if(*desktop == NULL) {
-        *desktop = new_window;
-    } else {
-        while(last_window->next != NULL) {
-            last_window = last_window->next;
-        }
-        last_window->next = new_window;
-    }
+void CreateTaskbar(Window *window) {
+    FillRect(window->x, window->y, window->width, 40, 0xc0c0c0);
+    CreateButton(window, &startButton);
 }
 
-void PaintDesktop(Window *desktop) {
-    Window *temp = desktop;
-    while (temp != NULL)
-    {
-        // window shadow
-        FillRect(temp->x + 5, temp->y + 5, temp->width, temp->height, 0x39463e);
+void CreateDesktop(Window *window) {
+    dib_header = ReadBMP("background.bmp");
+    DrawImage(0, 0, dib_header);
+    // FillRect(window->x, window->y, scrn_dim.ScreenWidth, scrn_dim.ScreenHeight, 0x177b4d);
+}
+
+void CreateButton(Window *parent, Window *button) {
+    FillRect(parent->x + button->x, parent->x + button->y, button->width, button->height, 0x343148);
+    // DrawText(parent->x + button->x, parent->y + button->y, button->title);
+    if((mouse_x > parent->x + button->x && mouse_x < parent->x + button->x + button->width) && (mouse_y > parent->y + button->y && mouse_y < parent->y + button->y + button->height)) {
+        DrawRectangle(parent->x + button->x, parent->y + button->y, button->height, button->width, 0xffffff);
+    }
+    DrawText(parent->x + button->x + 10, parent->y + button->y + 10, button->title);
+}
+
+void Window_paint(Window *window) {
+    if(window->window_id == 0) {
+        CreateDesktop(window);
+        CreateTaskbar(window);
+    } else {
+        // shadow
+        FillRect(window->x + 10, window->y + 10, window->width, window->height, 0x7b7a72);
+
+        // body
+        FillRect(window->x, window->y, window->width, window->height, 0xD7C49E);
+
+        // inner body
+        FillRect(window->x + 5, window->y + 45, window->width - 10, (window->height - 50), 0x808080);
+
+        // cursor
+        FillRect(window->x + 15, window->y + 50, 6, 25, 0xd0d0d0);
 
         // title bar
-        FillRect(temp->x, temp->y, temp->width, 20, 0xE2D1F9);
-        DrawText(temp->x + 10, temp->y + 5, temp->title);
-        // drawing window body
+        FillRect(window->x, window->y, window->width, 30, 0x343148);
 
-        FillRect(temp->x, temp->y + 20, temp->width, temp->height, 0x317773);
-        DrawRectangle(temp->x, temp->y, temp->height + 20, temp->width, 0xffffff);
-        if((mouse_x > temp->x && mouse_x < temp->x + temp->width) && (mouse_y > temp->y && mouse_y < temp->y + 20)) {
-            if(mouse_left_click() == 1) {
-                // set window focus
-                for(int i = temp->window_id; i < temp->window_id + 4; i++) {
-                    if(temp->window_id == i)
-                        Remove_window_to_end(&desktop, i);
+        // title
+        DrawText(window->x + 10, window->y + 5, window->title);
+        // controls
+        // Maximiza
+        Controls[0].x = window->x + window->width - 35;
+        Controls[0].y = window->y + 7;
+        Controls[0].width = 18;
+        Controls[0].height = 18;
+        Controls[0].color = 0xD7C49E;
 
-                // moving the windows.
-                desktop->x = mouse_x - (desktop->width / 3);
-                desktop->y = mouse_y - 5;
-                }
-                DrawRectangle(temp->x, temp->y + 20, temp->height, temp->width, 0xffffff);
+        // Minmize
+        Controls[1].x = window->x + window->width - (35 + 35);
+        Controls[1].y = window->y + 7;
+        Controls[1].width = 18;
+        Controls[1].height = 18;
+        Controls[1].color = 0xD7C49E;
+
+
+        // Draw controls
+        FillRect(Controls[0].x, Controls[0].y, Controls[0].width, Controls[0].height, Controls[0].color);
+        FillRect(Controls[1].x, Controls[1].y, Controls[1].width, Controls[1].height, Controls[1].color);
+
+        if((mouse_x > Controls[0].x && mouse_x < Controls[0].x + Controls[0].width) && (mouse_y > Controls[0].y && mouse_y < Controls[0].y + Controls[0].width)) {
+            DrawRectangle(Controls[0].x, Controls[0].y, Controls[0].height, Controls[0].width, 0xfffffff);
+            if(mouse_left_click()) {
+                window->x = window->x + 100;
+                window->y = window->y;
+                window->width = 100;
+                window->height = 25;
+                window->old_height = window->height;
+                window->old_width = window->width;
+                window->old_x = window->x;
+                window->old_y = window->y;
             }
         }
-        temp = temp->next;
-    }
-}
 
-void Remove_window_to_end(Window **desktop, int window_id) {
-    Window **temp_window = desktop;
-    Window *last_window = *desktop;
-    Window *current_window = *desktop;
-    Window *prev_window = NULL;
-
-    if(*temp_window != NULL && (*temp_window)->window_id == window_id) {
-        return NULL;
-    } else {
-        while(current_window != NULL && current_window->window_id != window_id) {
-            prev_window = current_window;
-            current_window = current_window->next;
+        if((mouse_x > Controls[1].x && mouse_x < Controls[1].x + Controls[1].width) && (mouse_y > Controls[1].y && mouse_y < Controls[1].y + Controls[1].width)) {
+            DrawRectangle(Controls[1].x, Controls[1].y, Controls[1].height, Controls[1].width, 0xfffffff);
+            if(mouse_left_click()) {
+                if(window->isMinimized == 0) {
+                    window->x = window->x + 100;
+                    window->y = window->y;
+                    window->width = 150;
+                    window->height = 25;
+                    window->old_height = window->height;
+                    window->old_width = window->width;
+                    window->old_x = window->x;
+                    window->old_y = window->y;
+                    window->isMinimized = 1;
+                } else {
+                    window->x = window->old_x;
+                    window->y = window->old_y;
+                    window->width = window->old_width;
+                    window->height = window->old_height;
+                    window->isMinimized = 0;
+                }
+            }
         }
-    }
 
-    // // traverse to the end of the list.
-    while(last_window->next != NULL) {
-        last_window = last_window->next;
-    }
-
-    if(current_window->next == NULL)
-        return NULL;
-
-    prev_window->next = prev_window->next->next;
-    last_window->next = current_window;
-    current_window->next = NULL;
-}
-
-void DrawBackground(int color) {
-    for(int i = 0; i < scrn_dim.ScreenHeight; i++) {
-        for(int j = 0; j < scrn_dim.ScreenWidth; j++) {
-            PutPixel(j, i, color);
+        // movement
+        if((mouse_x > window->x && mouse_x < window->x + window->width) && (mouse_y > window->y && mouse_y < window->y + window->height)) {
+            if(mouse_left_click()) {
+                window->x = mouse_x - (window->width / 2);
+                window->y = mouse_y - (35 / 2);
+            }
         }
     }
 }

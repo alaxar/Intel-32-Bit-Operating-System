@@ -7,23 +7,25 @@
 #include "multiboot/multiboot.h"
 #include "../include/gui/bmp.h"
 #include "../include/gui/window_system/window.h"
+#include "../include/gui/font/fonts.h"
 
 multiboot_info_t *mbi;
-Window *desktop = NULL;
 extern char mouse_byte[3];
-    int isCalled = 0;
+int isCalled = 0;
+// DIB *dib_header;
+Window desktop = {0, 0, 0, 800, 600, 0x0e387a, "DESKTOP", 0};
+Window win1 = {1, 50, 50, 420, 320, 0xffffffff, "TERMINAL", 0};
+Window win2 = {2, 100, 0, 400, 400, 0xffffffff, "SYSTEM INFORMATION", 0};
 
 void redraw_desktop_interrupt() {
-    int backgroundColor = 0x159c49;           // RGB
-    // DrawBackground(backgroundColor);
-        for(int i = 0; i < scrn_dim.ScreenHeight; i++) {
-            for(int j = 0; j < scrn_dim.ScreenWidth; j++) {
-                PutPixel(j, i, backgroundColor);
-            }
-        }
-    PaintDesktop(desktop);
+    Window_paint(&desktop);
+    // Window_paint(&win1);
+    // Window_paint(&win2);
+
+
+    // Draw Mouse
     DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
-    // UpdateScreen();
+    UpdateScreen();
 }
 
 int main(unsigned long address, unsigned long grub_magic) {
@@ -39,13 +41,18 @@ int main(unsigned long address, unsigned long grub_magic) {
     enable_interrupts();
     clear_screen();
     terminal_init();
-    SetupScreen(mbi);
-    New_window(&desktop, 41, 0, 10, 320, 200, 0xff0000, "FIRST WINDOW");           // red
-    New_window(&desktop, 42, 300, 100, 320, 200, 0x00ff00, "SECOND WINDOW");          // green
-    New_window(&desktop, 43, 350, 30, 320, 200, 0x0000ff, "THRID WINDOW");          // blue
-    New_window(&desktop, 44, 400, 200, 320, 200, 0xffff00, "FOURTH WINDOW");          // other color
+    if((mbi->framebuffer_width >= 320) && (mbi->framebuffer_height >= 200)) {
+        SetupScreen(mbi);
+    }
 
-    PaintDesktop(desktop);
-    // UpdateScreen();
+    // printf(itoa(mbi->mods_count), -1, -1, -1);
+    Window_paint(&desktop);
+    // Window_paint(&win1);
+    // Window_paint(&win2);
+
+    // Draw Mouse
+    DrawRectangle(mouse_x, mouse_y, 10, 10, 0xffffff);
+    UpdateScreen();
+
     while(1); // hang the cpu here
 }

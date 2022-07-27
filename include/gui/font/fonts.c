@@ -19,7 +19,6 @@ void DrawText(int x, int y, char *filename) {
         // get the address of the loaded font from memory using tar file system.
         font_address = FindFileTAR("font.ef");
 
-
         font_header = (struct ethiopic_font*)font_address;
 
         for(int i = 0; i < font_header->height; i++) {

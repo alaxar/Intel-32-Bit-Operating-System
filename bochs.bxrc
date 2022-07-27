@@ -1,3 +1,3 @@
-floppya: 1_44="build/EthiopicOS.iso", status=inserted
-boot: a
-#display_library: wx, options="gui_debug"
+boot: cdrom
+ata0-master: type=cdrom, path="/home/alazar/OS/OS/build/EthiopicOS.iso", status=inserted, model="Generic 1234", biosdetect=auto
+display_library: wx, options="gui_debug"

@@ -10,7 +10,22 @@ int Height;
 int Width;
 int bpp;
 int RowSize;
-int red, green, blue, colorBMP;
+unsigned int red, green, blue, colorBMP;
+
+unsigned char reverse_bits(unsigned char num)
+{
+    unsigned char  NO_OF_BITS = 8;
+    unsigned char reverse_num = 0, i, temp;
+
+    for (i = 0; i < NO_OF_BITS; i++)
+    {
+        temp = (num & (1 << i));
+        if(temp)
+            reverse_num |= (1 << ((NO_OF_BITS - 1) - i));
+    }
+
+    return reverse_num;
+}
 
 void flip_image_array(unsigned char **ImageData, int rows, int cols) {
     int i, j;
@@ -36,8 +51,10 @@ DIB *ReadBMP(char *filename) {
     bmp_header = (BMPHeader*)bmp_header_offset;  // bmp header
 
     if(bmp_header->type != 0x4D42) {
-        printf("The file is not BMP or corrupted\n", -1, -1, 0);
+        printf("The file is not BMP or corrupted\n", -1, -1, -1);
         return -1;
+    } else {
+        // printf("BMP file is loading...\n", -1, -1, -1);
     }
 
     // reading the dib header
@@ -100,24 +117,27 @@ void DrawImage(int x, int y, DIB *dib_header) {
         isSwapped = 1;
     }
 
-    if(Height > 0)
-        flip_image_array(PixelData, Width, Height);
+    // if(Height > 0)
+    //     flip_image_array(PixelData, Width, Height);
 
 
-    for(int i = Height - i; i > 0; i--) {
-        for(int j = 0; j < Width; j++) {
-            int kk = 3 * j;
+    if(dib_header->height > 0) {
+        for(int i = 0; i < Height; i++) {
+            for(int j = 0; j < Width; j++) {
+                int kk = 3 * j;
 
-            red = PixelData[Height-i*RowSize+kk];
-            green = PixelData[(Height-i*RowSize+kk) + 1];
-            blue = PixelData[(Height-i*RowSize+kk) + 2];
+                int invertRow = dib_header->height - i - 1;
+                red = PixelData[invertRow*RowSize+kk];
+                green = PixelData[(invertRow*RowSize+kk) + 1];
+                blue = PixelData[(invertRow*RowSize+kk) + 2];
 
-            colorBMP = (int)(colorBMP << 8) | red;
-            colorBMP = (int)(colorBMP << 8) | green;
-            colorBMP = (int)(colorBMP << 8) | blue;
-            PutPixel(j + x, i + y, colorBMP);
+                colorBMP = (int)(colorBMP << 8) | red;
+                colorBMP = (int)(colorBMP << 8) | green;
+                colorBMP = (int)(colorBMP << 8) | blue;
+                PutPixel(j, i, colorBMP);
+            }
         }
+    } else {
+        dib_header->height = -dib_header->height;
     }
 }
-
-void RotateImage() {}
